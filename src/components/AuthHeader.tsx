@@ -1,14 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { ModeToggle } from './mode-toggle';
-import LogoD from '../assets/Logo-D.png';
-import LogoL from '../assets/Logo-l.png';
+import Logo from '../assets/logo.png';
 import { Button } from './ui/button';
 import { Category, HambergerMenu, Home, Sms, Box, Book, Shop } from 'iconsax-react';
-import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
-import { useAuth } from '../hooks/useAuth'; // Import the useAuth hook
-import { useTheme } from '../components/theme-provider';
-
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger, } from "@/components/ui/dialog"
+import { useAuth } from '../hooks/useAuth';
 interface NavItemProps {
   to: string;
   currentPath: string;
@@ -16,10 +12,10 @@ interface NavItemProps {
 }
 
 const AuthHeader: React.FC = () => {
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
   const location = useLocation();
   const { isAuthenticated, logout } = useAuth(); // Get authentication status and logout function
-  const { theme } = useTheme();  // Use the useTheme hook to get the current theme
 
 
   useEffect(() => {
@@ -39,31 +35,31 @@ const AuthHeader: React.FC = () => {
     <div className="w-full flex flex-wrap items-center bg-background justify-between p-2 md:p-4 border-b-2 sticky top-0 z-10">
       <div className="w-full flex items-center justify-between">
         <Link to="/">
-          <img src={theme === 'dark' ? LogoD : LogoL} className="w-14" alt="Logo" />
+          <img src={Logo} className="w-14" alt="Logo" />
         </Link>
         <ul className={`ml-4 space-x-4 hidden md:flex`}>
           <NavItem to="/" currentPath={location.pathname}>
-            <Home variant="TwoTone" />
+            <Home variant="Bulk" />
             Home
           </NavItem>
           <NavItem to="/dashboard" currentPath={location.pathname}>
-            <Category variant="TwoTone" />
+            <Category variant="Bulk" />
             Dashboard
           </NavItem>
           <NavItem to="/dashboard/product" currentPath={location.pathname}>
-            <Shop variant='TwoTone' />
+            <Shop variant='Bulk' />
             Product
           </NavItem>
           <NavItem to="/dashboard/order" currentPath={location.pathname}>
-            <Box variant='TwoTone' />
+            <Box variant='Bulk' />
             Order
           </NavItem>
           <NavItem to="/dashboard/review" currentPath={location.pathname}>
-            <Book variant='TwoTone' />
+            <Book variant='Bulk' />
             Reviews
           </NavItem>
           <NavItem to="/dashboard/ContactData" currentPath={location.pathname}>
-            <Sms variant='TwoTone' />
+            <Sms variant='Bulk' />
             Contact Data
           </NavItem>
         </ul>
@@ -75,53 +71,54 @@ const AuthHeader: React.FC = () => {
               <Button variant={"outline"}>Login</Button>
             </Link>
           )}
-          <ModeToggle />
           {isMobile && (
-            <Sheet>
-              <SheetTrigger asChild>
-                <Button variant={"outline"} className='p-2'>
-                  <HambergerMenu size="32" variant="TwoTone" />
+            <Dialog open={isMenuOpen} onOpenChange={setIsMenuOpen}>
+              <DialogTrigger>
+                <Button variant={"outline"} className='p-2' >
+                  <HambergerMenu size="32" variant="Bulk" />
                 </Button>
-              </SheetTrigger>
-              <SheetContent>
-                <SheetHeader>
-                  <SheetTitle className='mx-auto'>
+              </DialogTrigger>
+              <DialogContent className='w-full h-screen'>
+                <DialogHeader>
+                  <DialogTitle>
                     <Link to="/">
-                      <img src={theme === 'dark' ? LogoD : LogoL} className="mx-auto w-14" alt="Logo" />
+                      <img src={Logo} className="mx-auto w-14" alt="Logo" />
+                      Trendy Closet
                     </Link>
-                    Lotus Group
-                  </SheetTitle>
-                </SheetHeader>
-                <div className="grid gap-4 py-4">
-                  <ul className="ml-4 md:flex">
-                    <NavItem to="/" currentPath={location.pathname}>
-                      <Home variant="TwoTone" />
-                      Home
-                    </NavItem>
-                    <NavItem to="/dashboard" currentPath={location.pathname}>
-                      <Category variant="TwoTone" />
-                      Dashboard
-                    </NavItem>
-                    <NavItem to="/dashboard/product" currentPath={location.pathname}>
-                      <Shop variant='TwoTone' />
-                      Product
-                    </NavItem>
-                    <NavItem to="/dashboard/order" currentPath={location.pathname}>
-                      <Box variant='TwoTone' />
-                      Order
-                    </NavItem>
-                    <NavItem to="/dashboard/review" currentPath={location.pathname}>
-                      <Book variant='TwoTone' />
-                      Reviews
-                    </NavItem>
-                    <NavItem to="/dashboard/ContactData" currentPath={location.pathname}>
-                      <Sms variant='TwoTone' />
-                      Contact Data
-                    </NavItem>
-                  </ul>
-                </div>
-              </SheetContent>
-            </Sheet>
+                  </DialogTitle>
+                  <DialogDescription>
+                    <div className="grid gap-4 py-4">
+                      <ul className="ml-4 md:flex">
+                        <NavItem to="/" currentPath={location.pathname}>
+                          <Home variant="Bulk" />
+                          Home
+                        </NavItem>
+                        <NavItem to="/dashboard" currentPath={location.pathname}>
+                          <Category variant="Bulk" />
+                          Dashboard
+                        </NavItem>
+                        <NavItem to="/dashboard/product" currentPath={location.pathname}>
+                          <Shop variant='Bulk' />
+                          Product
+                        </NavItem>
+                        <NavItem to="/dashboard/order" currentPath={location.pathname}>
+                          <Box variant='Bulk' />
+                          Order
+                        </NavItem>
+                        <NavItem to="/dashboard/review" currentPath={location.pathname}>
+                          <Book variant='Bulk' />
+                          Reviews
+                        </NavItem>
+                        <NavItem to="/dashboard/ContactData" currentPath={location.pathname}>
+                          <Sms variant='Bulk' />
+                          Contact Data
+                        </NavItem>
+                      </ul>
+                    </div>
+                  </DialogDescription>
+                </DialogHeader>
+              </DialogContent>
+            </Dialog>
           )}
         </div>
       </div>

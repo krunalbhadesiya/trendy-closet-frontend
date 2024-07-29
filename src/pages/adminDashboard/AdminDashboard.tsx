@@ -1,5 +1,3 @@
-"use clinet"
-import Image from "next/image";
 import { Card, CardHeader, CardTitle, CardContent, CardFooter, CardDescription } from "@/components/ui/card"
 import { ArrowDown, ArrowUp } from "iconsax-react"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
@@ -73,7 +71,7 @@ export default function AdminDashboard() {
                 <TableRow>
                   <TableCell>
                     <div className="flex items-center gap-3">
-                      <Image src="/placeholder.svg" width={48} height={48} alt="Product Image" />
+                      <img src="/placeholder.svg" width={48} height={48} alt="Product Image" />
                       <div>
                         <div className="font-medium">Classic Tee</div>
                         <div className="text-sm text-muted-foreground">Black, M</div>
@@ -86,7 +84,7 @@ export default function AdminDashboard() {
                 <TableRow>
                   <TableCell>
                     <div className="flex items-center gap-3">
-                      <Image
+                      <img
                         src="/placeholder.svg"
                         width={48}
                         height={48}
@@ -105,7 +103,7 @@ export default function AdminDashboard() {
                 <TableRow>
                   <TableCell>
                     <div className="flex items-center gap-3">
-                      <Image
+                      <img
                         src="/placeholder.svg"
                         width={48}
                         height={48}

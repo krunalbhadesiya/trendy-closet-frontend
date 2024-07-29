@@ -1,6 +1,3 @@
-// src/app/auth/register/page.tsx
-import Image from "next/image";
-
 import { RegisterForm } from '@/components/auth/RegisterFrom';
 import React from 'react';
 
@@ -8,7 +5,7 @@ const Register: React.FC = () => {
   return (
     <div className="grid w-full min-h-screen lg:grid-cols-2">
       <div className="hidden bg-muted lg:block">
-        <Image
+        <img
           src="/authpage.jpg"
           alt="Login Image"
           width="1600"

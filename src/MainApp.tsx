@@ -5,15 +5,14 @@ import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-d
 import Header from './components/Header';
 import Footer from './components/Footer';
 import PreLoader from './components/PreLoader';
-import { ThemeProvider } from './components/theme-provider';
 import Home from './pages/Home';
-// import Store from './pages/Store';
+import Store from './pages/Store';
 import ContactUs from './pages/ContactUs';
 
 import AboutUs from './pages/AboutUs';
 import { Toaster } from "@/components/ui/toaster";
 import Login from './pages/dashboard/Login';
-// import Register from './pages/auth/register/page';
+import Register from './pages/auth/register/page';
 import PrivateRoute from './components/PrivateRoute';
 import Dashboard from './pages/dashboard/Dashboard';
 import ProjectEdit from './pages/dashboard/ProjectEdit';
@@ -38,9 +37,8 @@ function MainApp() {
   }
 
   return (
-    <ThemeProvider defaultTheme="system" storageKey="vite-ui-theme">
-      <Router>
-        {/* <Helmet>
+    <Router>
+      {/* <Helmet>
           <meta charSet="utf-8" />
           <title>Lotus Group - Your One-Stop Solution</title>
           <meta name="description" content="Welcome to Lotus Group. We provide web development, software development, UI/UX design, and IT consulting services." />
@@ -54,46 +52,45 @@ function MainApp() {
           <meta property="og:type" content="website" />
         </Helmet> */}
 
-        {isAuthenticated ? <AuthHeader /> : <Header />}
+      {isAuthenticated ? <AuthHeader /> : <Header />}
 
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/contactus" element={<ContactUs />} />
-          <Route path="/aboutus" element={<AboutUs />} />
-          <Route path="*" element={<Navigate to="/" />} />
-          <Route path="/login" element={<Login />} />
-          {/* <Route path="/register" element={<Register />} /> */}
-          {/* <Route path="/store" element={<Store />} /> */}
-          <Route
-            path="/dashboard"
-            element={
-              <PrivateRoute>
-                <Dashboard />
-              </PrivateRoute>
-            }
-          />
-          <Route
-            path="/dashboard/projects"
-            element={
-              <PrivateRoute>
-                <ProjectEdit />
-              </PrivateRoute>
-            }
-          />
-          <Route
-            path="/dashboard/ContactData"
-            element={
-              <PrivateRoute>
-                <ContactEdit />
-              </PrivateRoute>
-            }
-          />
-        </Routes>
-        {isAuthenticated ? <div></div> : <Footer />}
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/contactus" element={<ContactUs />} />
+        <Route path="/aboutus" element={<AboutUs />} />
+        <Route path="*" element={<Navigate to="/" />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
+        <Route path="/store" element={<Store />} />
+        <Route
+          path="/dashboard"
+          element={
+            <PrivateRoute>
+              <Dashboard />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/dashboard/projects"
+          element={
+            <PrivateRoute>
+              <ProjectEdit />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/dashboard/ContactData"
+          element={
+            <PrivateRoute>
+              <ContactEdit />
+            </PrivateRoute>
+          }
+        />
+      </Routes>
+      {isAuthenticated ? <div></div> : <Footer />}
 
-        <Toaster />
-      </Router>
-    </ThemeProvider>
+      <Toaster />
+    </Router>
   );
 }
 

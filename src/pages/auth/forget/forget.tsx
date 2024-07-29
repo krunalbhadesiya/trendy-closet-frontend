@@ -1,5 +1,3 @@
-// src/app/auth/forget/page.tsx
-import Image from "next/image";
 import { ForgetPasswordForm } from '@/components/auth/ForgetPasswordFrom';
 import React from 'react';
 
@@ -7,7 +5,7 @@ const ForgetPassword: React.FC = () => {
   return (
     <div className="grid w-full min-h-screen lg:grid-cols-2">
       <div className="hidden bg-muted lg:block">
-        <Image
+        <img
           src="/authpage.jpg"
           alt="Login Image"
           width="1600"

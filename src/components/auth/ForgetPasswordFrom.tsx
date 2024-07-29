@@ -1,6 +1,3 @@
-"use client"
-
-import React, { useState } from "react"
 import { useForm, Controller, FormProvider, SubmitHandler } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { z } from "zod"
@@ -14,6 +11,7 @@ import {
   FormMessage,
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
+import { useState } from "react"
 
 // Define validation schemas
 const emailSchema = z.object({

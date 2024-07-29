@@ -1,6 +1,3 @@
-// src/app/auth/login/page.tsx
-import Image from "next/image";
-
 import { LoginForm } from '@/components/auth/LoginForm';
 import React from 'react';
 
@@ -8,7 +5,7 @@ const Login: React.FC = () => {
   return (
     <div className="grid w-full min-h-screen lg:grid-cols-2">
       <div className="hidden bg-muted lg:block">
-        <Image
+        <img
           src="/authpage.jpg"
           alt="Login Image"
           width="1600"

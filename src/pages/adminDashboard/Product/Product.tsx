@@ -10,7 +10,6 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog"
-import Image from "next/image";
 
 
 export default function AdminProduct() {
@@ -40,7 +39,7 @@ export default function AdminProduct() {
         <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
           <Card className="relative overflow-hidden transition-transform duration-300 ease-in-out rounded-lg shadow-lg group hover:shadow-xl hover:-translate-y-2">
 
-            <Image src="/product/tshirt-4.png" alt="T-Shirt 5" width={500} height={400} className="object-cover w-full h-64"  />
+            <img src="/product/tshirt-4.png" alt="T-Shirt 5" width={500} height={400} className="object-cover w-full h-64"  />
             <CardContent className="p-4 bg-background">
               <h3 className="text-xl font-bold">Oversized Tee</h3>
               <p className="text-sm text-muted-foreground">Relaxed fit, 100% cotton</p>
