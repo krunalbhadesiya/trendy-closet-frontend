@@ -11,6 +11,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog"
+import UserDialogButton from './UserDialogButton';
 
 interface NavItemProps {
   to: string;
@@ -24,7 +25,7 @@ const Header: React.FC = () => {
   const [isMobile, setIsMobile] = useState(false);
   const location = useLocation();
 
- 
+
 
   const closeMenu = () => {
     setIsMenuOpen(false);
@@ -44,10 +45,10 @@ const Header: React.FC = () => {
   }, []);
 
   return (
-    <div className="w-full flex flex-wrap items-center bg-background justify-between p-4 md:p-6 border-b-2 sticky top-0 z-10">
+    <div className="w-full flex flex-wrap items-center bg-background justify-between p-2 md:p-4 border-b-2 sticky top-0 z-10">
       <div className="w-full flex items-center justify-between">
         <Link to="/">
-          <img src={Logo} className="w-8" alt="Logo" />
+          <img src={Logo} className="w-10 md:w-14" alt="Logo" />
         </Link>
         <ul className={`ml-4 space-x-4 hidden md:flex`}>
           <NavItem to="/" currentPath={location.pathname}>Home</NavItem>
@@ -56,6 +57,7 @@ const Header: React.FC = () => {
           <NavItem to="/contactus" currentPath={location.pathname}>Contact Us</NavItem>
         </ul>
         <div className='flex items-center gap-2'>
+          <UserDialogButton />
           {/* <Link to="/login">
             <Button variant={"outline"}>Login</Button>
           </Link> */}

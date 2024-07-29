@@ -1,7 +1,6 @@
-import { ForgetPasswordForm } from '@/components/auth/ForgetPasswordFrom';
-import React from 'react';
+import LoginForm  from '@/components/auth/LoginForm';
 
-const ForgetPassword: React.FC = () => {
+const Login = () => {
   return (
     <div className="grid w-full min-h-screen lg:grid-cols-2">
       <div className="hidden bg-muted lg:block">
@@ -16,10 +15,10 @@ const ForgetPassword: React.FC = () => {
       <div className="flex items-center justify-center p-6 lg:p-10">
         <div className="mx-auto w-full max-w-[400px] space-y-6">
           <div className="space-y-2 text-center">
-            <h1 className="text-3xl font-bold">Forget Password</h1>
-            {/* <p className="text-muted-foreground">Enter your credentials to access your account.</p> */}
+            <h1 className="text-3xl font-bold">Welcome Back</h1>
+            <p className="text-muted-foreground">Enter your credentials to access your account.</p>
           </div>
-          <ForgetPasswordForm />
+          <LoginForm />
           {/* <form className="space-y-4">
             <div className="space-y-2">
               <label
@@ -67,4 +66,4 @@ const ForgetPassword: React.FC = () => {
   );
 };
 
-export default ForgetPassword;
+export default Login;

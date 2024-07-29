@@ -1,24 +1,34 @@
 // src/MainApp.tsx
 import { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
-// import { Helmet } from 'react-helmet';
-import Header from './components/Header';
+// import Header from './components/Header';
 import Footer from './components/Footer';
 import PreLoader from './components/PreLoader';
 import Home from './pages/Home';
 import Store from './pages/Store';
 import ContactUs from './pages/ContactUs';
-
 import AboutUs from './pages/AboutUs';
 import { Toaster } from "@/components/ui/toaster";
-import Login from './pages/dashboard/Login';
-import Register from './pages/auth/register/page';
+import Login from './pages/auth/login';
+import Register from './pages/auth/register';
 import PrivateRoute from './components/PrivateRoute';
-import Dashboard from './pages/dashboard/Dashboard';
-import ProjectEdit from './pages/dashboard/ProjectEdit';
-import ContactEdit from './pages/dashboard/ContactEdit';
+import ForgetPassword from './pages/auth/forget';
+// import AuthHeader from './components/AuthHeader';
+import Auth from './pages/auth/auth';
+import AdminContactFormData from './pages/adminDashboard/ContactFormData/ContactFormData';
+import AdminOrder from './pages/adminDashboard/Order/Order';
+import AdminProduct from './pages/adminDashboard/Product/Product';
+import AddProduct from './pages/adminDashboard/Product/AddProduct/AddProduct';
 import { useAuth } from './hooks/useAuth';
-import AuthHeader from './components/AuthHeader';
+import UpdateProduct from './pages/adminDashboard/Product/UpdateProduct/[id]';
+import AdminReview from './pages/adminDashboard/Reviews/Reviews';
+import AdminDashboard from './pages/adminDashboard/AdminDashboard';
+import UserDashboard from './pages/userDashboard/userDashboard';
+import Cart from './pages/userDashboard/Cart/Cart';
+import AddOrder from './pages/userDashboard/Order/AddOrder/AddOrder';
+import { Helmet } from 'react-helmet';
+import Oreder from './pages/userDashboard/Order/Order';
+import HeaderSwitcher from './components/HeaderSwitcher';
 
 function MainApp() {
   const { isAuthenticated } = useAuth();
@@ -38,51 +48,117 @@ function MainApp() {
 
   return (
     <Router>
-      {/* <Helmet>
-          <meta charSet="utf-8" />
-          <title>Lotus Group - Your One-Stop Solution</title>
-          <meta name="description" content="Welcome to Lotus Group. We provide web development, software development, UI/UX design, and IT consulting services." />
-          <meta name="keywords" content="Lotus Group, web development, software development, UI/UX design, IT consulting" />
-          <meta name="author" content="Lotus Group" />
-          <meta name="robots" content="index, follow" />
-          <meta property="og:title" content="Home | Lotus Group" />
-          <meta property="og:description" content="Welcome to Lotus Group - Your One-Stop Solution for web development, software development, UI/UX design, and IT consulting services." />
-          <meta property="og:url" content="https://lotusgroup.vercel.app//home" />
-          <meta property="og:image" content="https://lotusgroup.vercel.app/logo.png" />
-          <meta property="og:type" content="website" />
-        </Helmet> */}
+      <Helmet>
+        <meta charSet="utf-8" />
+        <title>Trendy Closet </title>
+        <meta name="description" content="Welcome to Trendy Closet. We provide web development, software development, UI/UX design, and IT consulting services." />
+        <meta name="keywords" content="Trendy Closet, web development, software development, UI/UX design, IT consulting" />
+        <meta name="author" content="Trendy Closet" />
+        <meta name="robots" content="index, follow" />
+        <meta property="og:title" content="Home | Trendy Closet" />
+        <meta property="og:description" content="Welcome to Trendy Closet - Your One-Stop Solution for web development, software development, UI/UX design, and IT consulting services." />
+        {/* <meta property="og:url" content="https://lotusgroup.vercel.app//home" />
+          <meta property="og:image" content="https://lotusgroup.vercel.app/logo.png" /> */}
+        <meta property="og:type" content="website" />
+      </Helmet>
 
-      {isAuthenticated ? <AuthHeader /> : <Header />}
-
+      {/* {isAuthenticated ? <AuthHeader /> : <Header />} */}
+      <HeaderSwitcher />
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/contactus" element={<ContactUs />} />
         <Route path="/aboutus" element={<AboutUs />} />
         <Route path="*" element={<Navigate to="/" />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<Register />} />
+        <Route path="/auth" element={<Auth />} />
+        <Route path="/auth/login" element={<Login />} />
+        <Route path="/auth/register" element={<Register />} />
+        <Route path="/auth/forget" element={<ForgetPassword />} />
         <Route path="/store" element={<Store />} />
         <Route
-          path="/dashboard"
+          path="admin/dashboard"
           element={
-            <PrivateRoute>
-              <Dashboard />
+            <PrivateRoute adminRoute={true}>
+              <AdminDashboard />
             </PrivateRoute>
           }
         />
         <Route
-          path="/dashboard/projects"
+          path="admin/dashboard/contactformdata"
           element={
-            <PrivateRoute>
-              <ProjectEdit />
+            <PrivateRoute adminRoute={true}>
+              <AdminContactFormData />
             </PrivateRoute>
           }
         />
         <Route
-          path="/dashboard/ContactData"
+          path="admin/dashboard/order"
           element={
-            <PrivateRoute>
-              <ContactEdit />
+            <PrivateRoute adminRoute={true}>
+              <AdminOrder />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="admin/dashboard/product"
+          element={
+            <PrivateRoute adminRoute={true}>
+              <AdminProduct />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="admin/dashboard/product/add"
+          element={
+            <PrivateRoute adminRoute={true}>
+              <AddProduct />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="admin/dashboard/product/update/{id}"
+          element={
+            <PrivateRoute adminRoute={true}>
+              <UpdateProduct />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="admin/dashboard/reviews"
+          element={
+            <PrivateRoute adminRoute={true}>
+              <AdminReview />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="user/dashboard"
+          element={
+            <PrivateRoute adminRoute={false}>
+              <UserDashboard />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="user/dashboard/order"
+          element={
+            <PrivateRoute adminRoute={false}>
+              <Oreder />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="user/dashboard/order/add"
+          element={
+            <PrivateRoute adminRoute={false}>
+              <AddOrder />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="user/dashboard/cart"
+          element={
+            <PrivateRoute adminRoute={false}>
+              <Cart />
             </PrivateRoute>
           }
         />

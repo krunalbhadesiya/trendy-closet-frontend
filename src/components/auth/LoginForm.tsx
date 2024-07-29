@@ -1,77 +1,111 @@
-"use client"
+// src/components/LoginForm.tsx
+import { Button } from "@/components/ui/button";
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { toast } from "@/components/ui/use-toast";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
+import axios from 'axios';
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
-import { zodResolver } from "@hookform/resolvers/zod"
-import { useForm } from "react-hook-form"
-import { z } from "zod"
+// Define schema for form validation
+const FormSchema = z.object({
+    email: z.string().email({
+        message: "Please enter a valid email address.",
+    }),
+    password: z.string().min(6, {
+        message: "Password must be at least 6 characters.",
+    }),
+});
 
-import { Button } from "@/components/ui/button"
-import {
-  Form,
-  FormControl,
-  FormDescription,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form"
-import { Input } from "@/components/ui/input"
+// LoginForm component for rendering the login form
+function LoginForm() {
+    const [isLoading, setIsLoading] = useState<boolean>(false);
+    const navigate = useNavigate();
 
-const loginSchema = z.object({
-  usernameOrEmail: z.string().min(1, {
-    message: "Username or email is required.",
-  }),
-  password: z.string().min(6, {
-    message: "Password must be at least 6 characters.",
-  }),
-})
+    // Initialize form state and validation
+    const form = useForm<z.infer<typeof FormSchema>>({
+        resolver: zodResolver(FormSchema),
+        defaultValues: {
+            email: "",
+            password: "",
+        },
+    });
 
-export function LoginForm() {
-  const form = useForm({
-    resolver: zodResolver(loginSchema),
-  })
+    // Handle form submission
+    async function onSubmit(data: z.infer<typeof FormSchema>) {
+        setIsLoading(true);
+        try {
+            const response = await axios.post(`${import.meta.env.VITE_API_BASE_URL}/auth/login`, {
+                email: data.email,
+                password: data.password
+            });
 
-  const onSubmit = (data:any) => {
-    console.log(data)
-    // Handle login logic here
-  }
+            const { token, role } = response.data;
+            localStorage.setItem('token', token);
 
-  return (
-    <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-        <FormField
-          control={form.control}
-          name="usernameOrEmail"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Username or Email</FormLabel>
-              <FormControl>
-                <Input placeholder="Username or Email" {...field} />
-              </FormControl>
-              <FormDescription>Enter your username or email.</FormDescription>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name="password"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Password</FormLabel>
-              <FormControl>
-                <Input type="password" placeholder="Password" {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <Button type="submit">Login</Button>
-        <div className="mt-4">
-          <a href="/auth/forget">Forgot Password?</a>
-          <span> | </span>
-          <a href="/auth/register">New User? Register</a>
-        </div>
-      </form>
-    </Form>
-  )
+            // Store role only if it is provided
+            if (role) {
+                localStorage.setItem('role', role);
+            }
+
+            toast({
+                title: "Login Successful",
+                description: `Welcome, ${data.email}!`,
+            });
+
+            // Navigate based on role
+            if (role === "admin") {
+                navigate('/admin/dashboard');
+            } else {
+                navigate('/user/dashboard');
+            }
+        } catch (error) {
+            console.error('Login error:', error);
+            alert('Login failed. Please check your credentials.');
+        } finally {
+            setIsLoading(false);
+        }
+    }
+
+    // Render the form
+    return (
+        <Form {...form}>
+            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+                <FormField
+                    control={form.control}
+                    name="email"
+                    render={({ field }) => (
+                        <FormItem>
+                            <FormLabel>Email</FormLabel>
+                            <FormControl>
+                                <Input placeholder="Enter your email" {...field} />
+                            </FormControl>
+                            <FormMessage />
+                        </FormItem>
+                    )}
+                />
+                <FormField
+                    control={form.control}
+                    name="password"
+                    render={({ field }) => (
+                        <FormItem>
+                            <FormLabel>Password</FormLabel>
+                            <FormControl>
+                                <Input placeholder="Enter your password" type="password" {...field} />
+                            </FormControl>
+                            <FormMessage />
+                        </FormItem>
+                    )}
+                />
+                <Button type="submit" disabled={isLoading}>
+                    {isLoading ? 'Logging in...' : 'Login'}
+                </Button>
+            </form>
+        </Form>
+    );
 }
+
+export default LoginForm;

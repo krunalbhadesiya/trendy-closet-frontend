@@ -4,7 +4,7 @@ import Logo from '../assets/logo.png';
 import { Button } from './ui/button';
 import { Category, HambergerMenu, Home, Sms, Box, Book, Shop } from 'iconsax-react';
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger, } from "@/components/ui/dialog"
-import { useAuth } from '../hooks/useAuth';
+import UserDialogButton from './UserDialogButton';
 interface NavItemProps {
   to: string;
   currentPath: string;
@@ -15,7 +15,6 @@ const AuthHeader: React.FC = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
   const location = useLocation();
-  const { isAuthenticated, logout } = useAuth(); // Get authentication status and logout function
 
 
   useEffect(() => {
@@ -42,41 +41,33 @@ const AuthHeader: React.FC = () => {
             <Home variant="Bulk" />
             Home
           </NavItem>
-          <NavItem to="/dashboard" currentPath={location.pathname}>
+          <NavItem to="/admin/dashboard" currentPath={location.pathname}>
             <Category variant="Bulk" />
             Dashboard
           </NavItem>
-          <NavItem to="/dashboard/product" currentPath={location.pathname}>
+          <NavItem to="/admin/dashboard/product" currentPath={location.pathname}>
             <Shop variant='Bulk' />
             Product
           </NavItem>
-          <NavItem to="/dashboard/order" currentPath={location.pathname}>
+          <NavItem to="/admin/dashboard/order" currentPath={location.pathname}>
             <Box variant='Bulk' />
             Order
           </NavItem>
-          <NavItem to="/dashboard/review" currentPath={location.pathname}>
+          <NavItem to="/admin/dashboard/review" currentPath={location.pathname}>
             <Book variant='Bulk' />
             Reviews
           </NavItem>
-          <NavItem to="/dashboard/ContactData" currentPath={location.pathname}>
+          <NavItem to="/admin/dashboard/ContactData" currentPath={location.pathname}>
             <Sms variant='Bulk' />
             Contact Data
           </NavItem>
         </ul>
         <div className='flex items-center gap-2'>
-          {isAuthenticated ? (
-            <Button variant={"outline"} onClick={logout}>Logout</Button>
-          ) : (
-            <Link to="/login">
-              <Button variant={"outline"}>Login</Button>
-            </Link>
-          )}
+          <UserDialogButton />
           {isMobile && (
             <Dialog open={isMenuOpen} onOpenChange={setIsMenuOpen}>
               <DialogTrigger>
-                <Button variant={"outline"} className='p-2' >
-                  <HambergerMenu size="32" variant="Bulk" />
-                </Button>
+                <HambergerMenu size="32" variant="Bulk" />
               </DialogTrigger>
               <DialogContent className='w-full h-screen'>
                 <DialogHeader>
@@ -93,23 +84,23 @@ const AuthHeader: React.FC = () => {
                           <Home variant="Bulk" />
                           Home
                         </NavItem>
-                        <NavItem to="/dashboard" currentPath={location.pathname}>
+                        <NavItem to="/admin/dashboard" currentPath={location.pathname}>
                           <Category variant="Bulk" />
                           Dashboard
                         </NavItem>
-                        <NavItem to="/dashboard/product" currentPath={location.pathname}>
+                        <NavItem to="/admin/dashboard/product" currentPath={location.pathname}>
                           <Shop variant='Bulk' />
                           Product
                         </NavItem>
-                        <NavItem to="/dashboard/order" currentPath={location.pathname}>
+                        <NavItem to="/admin/dashboard/order" currentPath={location.pathname}>
                           <Box variant='Bulk' />
                           Order
                         </NavItem>
-                        <NavItem to="/dashboard/review" currentPath={location.pathname}>
+                        <NavItem to="/admin/dashboard/review" currentPath={location.pathname}>
                           <Book variant='Bulk' />
                           Reviews
                         </NavItem>
-                        <NavItem to="/dashboard/ContactData" currentPath={location.pathname}>
+                        <NavItem to="/admin/dashboard/ContactData" currentPath={location.pathname}>
                           <Sms variant='Bulk' />
                           Contact Data
                         </NavItem>

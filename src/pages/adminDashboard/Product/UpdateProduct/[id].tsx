@@ -4,7 +4,7 @@ import { Textarea } from "@/components/ui/textarea"
 import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from "@/components/ui/select"
 import { Button } from "@/components/ui/button"
 
-export default function AddProduct() {
+export default function UpdateProduct() {
   return (
     <div className="container mx-auto max-w-4xl px-4 py-12">
       <div className="mb-8">

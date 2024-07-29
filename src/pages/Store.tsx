@@ -1,13 +1,10 @@
 import { useState, useMemo } from "react";
-import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from "@/components/ui/accordion";
 import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
 import { SearchNormal } from "iconsax-react";
 import { Input } from "@/components/ui/input";
-import { ShirtIcon } from "lucide-react";
-
 
 type Filters = {
   category: string[];
@@ -138,11 +135,8 @@ export default function Store() {
   return (
     <div className="flex flex-col min-h-screen">
       <header className="bg-primary text-primary-foreground py-4 px-6">
-        <div className="container mx-auto flex items-center justify-between">
-          <Link href="#" className="flex items-center gap-2" prefetch={false}>
-            <ShirtIcon className="w-6 h-6" />
+        <div className="container mx-auto flex flex-col md:flex-row items-center justify-between">
             <span className="text-xl font-bold">T-Shirt Store</span>
-          </Link>
           <div className="flex items-center gap-4">
             <Input className="bg-primary text-primary-foreground" prefix='' />
             <Button variant="secondary">
