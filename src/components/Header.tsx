@@ -24,8 +24,11 @@ const Header: React.FC = () => {
   const [isMobile, setIsMobile] = useState(false);
   const location = useLocation();
 
+ 
 
-
+  const closeMenu = () => {
+    setIsMenuOpen(false);
+  };
 
   useEffect(() => {
     const handleResize = () => {
@@ -73,10 +76,10 @@ const Header: React.FC = () => {
                   <DialogDescription>
                     <div className="grid gap-4 py-4">
                       <ul className="ml-4  md:flex">
-                        <NavItem to="/" currentPath={location.pathname}>Home</NavItem>
-                        <NavItem to="/store" currentPath={location.pathname}>Store</NavItem>
-                        <NavItem to="/aboutus" currentPath={location.pathname}>About Us</NavItem>
-                        <NavItem to="/contactus" currentPath={location.pathname}>Contact Us</NavItem>
+                        <NavItem to="/" currentPath={location.pathname} onClick={closeMenu}>Home</NavItem>
+                        <NavItem to="/store" currentPath={location.pathname} onClick={closeMenu}>Store</NavItem>
+                        <NavItem to="/aboutus" currentPath={location.pathname} onClick={closeMenu}>About Us</NavItem>
+                        <NavItem to="/contactus" currentPath={location.pathname} onClick={closeMenu}>Contact Us</NavItem>
                       </ul>
                     </div>
                   </DialogDescription>
