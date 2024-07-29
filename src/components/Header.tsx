@@ -47,7 +47,7 @@ const Header: React.FC = () => {
     <div className="w-full flex flex-wrap items-center bg-background justify-between p-4 md:p-6 border-b-2 sticky top-0 z-10">
       <div className="w-full flex items-center justify-between">
         <Link to="/">
-          <img src={Logo} className="w-14" alt="Logo" />
+          <img src={Logo} className="w-8" alt="Logo" />
         </Link>
         <ul className={`ml-4 space-x-4 hidden md:flex`}>
           <NavItem to="/" currentPath={location.pathname}>Home</NavItem>
