@@ -1,0 +1,6 @@
+# Allow all web crawlers to access all content
+User-agent: *
+Disallow:
+
+# Specify the location of the sitemap
+Sitemap: https://lotusgroup.vercel.app/sitemap.xml
