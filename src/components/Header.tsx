@@ -24,13 +24,8 @@ const Header: React.FC = () => {
   const [isMobile, setIsMobile] = useState(false);
   const location = useLocation();
 
-  const toggleMenu = () => {
-    setIsMenuOpen(!isMenuOpen);
-  };
 
-  const closeMenu = () => {
-    setIsMenuOpen(false);
-  };
+
 
   useEffect(() => {
     const handleResize = () => {
@@ -63,11 +58,9 @@ const Header: React.FC = () => {
           </Link> */}
           {/* <ModeToggle /> */}
           {isMobile && (
-            <Dialog  open={isMenuOpen} onOpenChange={setIsMenuOpen}>
+            <Dialog open={isMenuOpen} onOpenChange={setIsMenuOpen}>
               <DialogTrigger>
-                <Button variant={"outline"} className='p-2' onClick={toggleMenu}>
-                  <HambergerMenu size="32" variant="Bulk" />
-                </Button>
+                <HambergerMenu size="32" variant="Bulk" />
               </DialogTrigger>
               <DialogContent className='w-full h-screen'>
                 <DialogHeader>
@@ -80,18 +73,10 @@ const Header: React.FC = () => {
                   <DialogDescription>
                     <div className="grid gap-4 py-4">
                       <ul className="ml-4  md:flex">
-                        <NavItem to="/" currentPath={location.pathname} onClick={closeMenu}>Home</NavItem>
-                        <NavItem to="/service" currentPath={location.pathname} onClick={closeMenu}>Services</NavItem>
-                        <ul className="pl-3 ">
-                          <NavItem to="/service/web-development" currentPath={location.pathname} onClick={closeMenu}>Web Development</NavItem>
-                          <NavItem to="/service/software-development" currentPath={location.pathname} onClick={closeMenu}>Software Development</NavItem>
-                          <NavItem to="/service/ui-ux-design" currentPath={location.pathname} onClick={closeMenu}>Ui Ux Design</NavItem>
-                          <NavItem to="/service/it-consulting" currentPath={location.pathname} onClick={closeMenu}>IT Consulting</NavItem>
-                        </ul>
-                        <NavItem to="/portfolio" currentPath={location.pathname} onClick={closeMenu}>Portfolio</NavItem>
-                        <NavItem to="/aboutus" currentPath={location.pathname} onClick={closeMenu}>About Us</NavItem>
-                        {/* <NavItem to="/blog" currentPath={location.pathname}>Blog</NavItem> */}
-                        <NavItem to="/contactus" currentPath={location.pathname} onClick={closeMenu}>Contact Us</NavItem>
+                        <NavItem to="/" currentPath={location.pathname}>Home</NavItem>
+                        <NavItem to="/store" currentPath={location.pathname}>Store</NavItem>
+                        <NavItem to="/aboutus" currentPath={location.pathname}>About Us</NavItem>
+                        <NavItem to="/contactus" currentPath={location.pathname}>Contact Us</NavItem>
                       </ul>
                     </div>
                   </DialogDescription>
