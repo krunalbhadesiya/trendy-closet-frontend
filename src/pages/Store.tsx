@@ -17,7 +17,7 @@ export default function Store() {
   const products = [
     {
       id: 1,
-      image: "/product/tshirt-1.png",
+      image: "/product/tshirt-2.png",
       title: "Classic Tee",
       description: "A timeless cotton t-shirt",
       price: 19.99,

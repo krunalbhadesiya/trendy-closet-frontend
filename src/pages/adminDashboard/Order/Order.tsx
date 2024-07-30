@@ -117,8 +117,8 @@ function Component() {
     //   const totalRevenue = orders.reduce((acc, order) => acc + order.total, 0);
 
     return (
-        <div className="mx-auto px-4 py-8">
-            <h1 className="w-full text-center text-2xl font-bold mb-6 ">T-Shirt Order Management</h1>
+        <div className="mx-auto p-4">
+            <h1 className="w-full text-center text-2xl font-bold pb-4 border-b-2">Order Management</h1>
             <div className="mb-6">
                 <h2 className="text-lg font-bold mb-4">Order Filters</h2>
                 <div className="flex items-center space-x-4">

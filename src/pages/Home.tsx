@@ -32,7 +32,7 @@ function Home() {
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
           <div className="rounded-lg border bg-card text-card-foreground shadow-sm h-full" data-v0-t="card">
             <img
-              src="/product/tshirt-1.png"
+              src="/product/tshirt-2.png"
               alt="Product Image"
               width="400"
               height="400"
@@ -51,7 +51,7 @@ function Home() {
           </div>
           <div className="rounded-lg border bg-card text-card-foreground shadow-sm h-full" data-v0-t="card">
             <img
-              src="/product/tshirt-1.png"
+              src="/product/tshirt-2.png"
               alt="Product Image"
               width="400"
               height="400"
@@ -72,7 +72,7 @@ function Home() {
           </div>
           <div className="rounded-lg border bg-card text-card-foreground shadow-sm h-full" data-v0-t="card">
             <img
-              src="/product/tshirt-1.png"
+              src="/product/tshirt-2.png"
               alt="Product Image"
               width="400"
               height="400"
@@ -94,7 +94,7 @@ function Home() {
           </div>
           <div className="rounded-lg border bg-card text-card-foreground shadow-sm h-full" data-v0-t="card">
             <img
-              src="/product/tshirt-1.png"
+              src="/product/tshirt-2.png"
               alt="Product Image"
               width="400"
               height="400"
@@ -125,7 +125,7 @@ function Home() {
               <span className="sr-only">View Product</span>
             </a>
             <img
-              src="/product/tshirt-1.png"
+              src="/product/tshirt-2.png"
               alt="Product Image"
               width="600"
               height="600"
@@ -143,7 +143,7 @@ function Home() {
               <span className="sr-only">View Product</span>
             </a>
             <img
-              src="/product/tshirt-1.png"
+              src="/product/tshirt-2.png"
               alt="Product Image"
               width="600"
               height="600"
@@ -161,7 +161,7 @@ function Home() {
               <span className="sr-only">View Product</span>
             </a>
             <img
-              src="/product/tshirt-1.png"
+              src="/product/tshirt-2.png"
               alt="Product Image"
               width="600"
               height="600"
@@ -178,7 +178,7 @@ function Home() {
               <span className="sr-only">View Product</span>
             </a>
             <img
-              src="/product/tshirt-1.png"
+              src="/product/tshirt-2.png"
               alt="Product Image"
               width="600"
               height="600"
@@ -195,7 +195,7 @@ function Home() {
               <span className="sr-only">View Product</span>
             </a>
             <img
-              src="/product/tshirt-1.png"
+              src="/product/tshirt-2.png"
               alt="Product Image"
               width="600"
               height="600"
@@ -212,7 +212,7 @@ function Home() {
               <span className="sr-only">View Product</span>
             </a>
             <img
-              src="/product/tshirt-1.png"
+              src="/product/tshirt-2.png"
               alt="Product Image"
               width="600"
               height="600"

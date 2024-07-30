@@ -115,7 +115,7 @@ function MainApp() {
           }
         />
         <Route
-          path="admin/dashboard/product/update/{id}"
+          path="admin/dashboard/product/update/:id"
           element={
             <PrivateRoute adminRoute={true}>
               <UpdateProduct />

@@ -10,12 +10,17 @@ interface NavItemProps {
   to: string;
   currentPath: string;
   children: React.ReactNode;
+  onClick?: () => void; // Add onClick prop
 }
 
 const AuthHeader: React.FC = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
   const location = useLocation();
+
+  const closeMenu = () => {
+    setIsMenuOpen(false);
+  };
 
 
   useEffect(() => {
@@ -82,27 +87,27 @@ const AuthHeader: React.FC = () => {
                   <DialogDescription>
                     <div className="grid gap-4 py-4">
                       <ul className="ml-4 md:flex">
-                        <NavItem to="/" currentPath={location.pathname}>
+                        <NavItem to="/" currentPath={location.pathname} onClick={closeMenu} >
                           <Home variant="Bulk" />
                           Home
                         </NavItem>
-                        <NavItem to="/admin/dashboard" currentPath={location.pathname}>
+                        <NavItem to="/admin/dashboard" currentPath={location.pathname} onClick={closeMenu}>
                           <Category variant="Bulk" />
                           Dashboard
                         </NavItem>
-                        <NavItem to="/admin/dashboard/product" currentPath={location.pathname}>
+                        <NavItem to="/admin/dashboard/product" currentPath={location.pathname} onClick={closeMenu}>
                           <Shop variant='Bulk' />
                           Product
                         </NavItem>
-                        <NavItem to="/admin/dashboard/order" currentPath={location.pathname}>
+                        <NavItem to="/admin/dashboard/order" currentPath={location.pathname} onClick={closeMenu}>
                           <Box variant='Bulk' />
                           Order
                         </NavItem>
-                        <NavItem to="/admin/dashboard/reviews" currentPath={location.pathname}>
+                        <NavItem to="/admin/dashboard/reviews" currentPath={location.pathname} onClick={closeMenu}>
                           <Book variant='Bulk' />
                           Reviews
                         </NavItem>
-                        <NavItem to="/admin/dashboard/contactformdata" currentPath={location.pathname}>
+                        <NavItem to="/admin/dashboard/contactformdata" currentPath={location.pathname} onClick={closeMenu}>
                           <Sms variant='Bulk' />
                           Contact Data
                         </NavItem>
@@ -130,12 +135,12 @@ const AuthHeader: React.FC = () => {
 }
 
 // Custom component to handle navigation links and highlight the active one
-const NavItem: React.FC<NavItemProps> = ({ to, currentPath, children }) => {
+const NavItem: React.FC<NavItemProps> = ({ to, currentPath, children, onClick }) => {
   const isActive = to === currentPath;
   return (
-    <li className='my-2'>
+    <li className='my-2' >
       <Link to={to} className={isActive ? 'bg-secondary' : ''}>
-        <Button variant={'ghost'} className={`flex gap-2 ${isActive ? 'border-2 border-border' : ''}`}>
+        <Button variant={'ghost'} className={`flex gap-2 ${isActive ? 'border-2 border-border' : ''}`} onClick={onClick}>
           {children}
         </Button>
       </Link>
