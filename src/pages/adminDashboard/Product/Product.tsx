@@ -3,16 +3,18 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Add, Edit, Eye, Trash } from "iconsax-react";
 import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog"
+
 import { Link } from "react-router-dom";
-import AddProduct from "./AddProduct/AddProduct";
 import axios from "axios";
 
 interface Product {
@@ -27,6 +29,7 @@ export default function AdminProduct() {
   const [products, setProducts] = useState<Product[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [deletingProductId, setDeletingProductId] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -37,7 +40,7 @@ export default function AdminProduct() {
         const response = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/products`, {
           headers: {
             "Content-Type": "application/json",
-            "Authorization": `Bearer ${token}` // Include the token in the Authorization header
+            "Authorization": `${token}` // Include the token in the Authorization header
           }
         });
 
@@ -61,6 +64,29 @@ export default function AdminProduct() {
 
     fetchProducts();
   }, []);
+
+  const handleDelete = async () => {
+    if (!deletingProductId) return;
+
+    try {
+      const token = localStorage.getItem("token");
+      if (!token) throw new Error("No token found. Please login.");
+
+      await axios.delete(`${import.meta.env.VITE_API_BASE_URL}/products/${deletingProductId}`, {
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `${token}`
+        }
+      });
+
+      setProducts(products.filter(product => product.id !== deletingProductId)); // Remove the deleted product from the list
+      setDeletingProductId(null); // Clear the ID
+    } catch (err) {
+      setError("Failed to delete product.");
+      console.error(err);
+    }
+  };
+
 
   return (
     <div className="flex min-h-screen w-full flex-col bg-muted/40 gap-1 p-4">
@@ -87,42 +113,37 @@ export default function AdminProduct() {
                   <div className="flex items-center justify-between">
                     <h4 className="text-lg font-semibold">${product.price.toFixed(2)}</h4>
                     <div className="flex gap-2">
-                      <Dialog>
-                        <DialogTrigger>
-                          <Button size="icon" variant="outline">
-                            <Edit size="16" variant="Bulk" />
-                            <span className="sr-only">Edit</span>
-                          </Button>
-                        </DialogTrigger>
-                        <DialogContent>
-                          <DialogHeader>
-                            <DialogTitle>Edit Product</DialogTitle>
-                            <DialogDescription>
-                              <AddProduct />
-                            </DialogDescription>
-                          </DialogHeader>
-                        </DialogContent>
-                      </Dialog>
-                      <Dialog>
-                        <DialogTrigger>
-                          <Button size="icon" variant="outline">
+                      <Link to="${product.id}">
+                        <Button size="icon" variant="outline">
+                          <Edit size="16" variant="Bulk" />
+                          <span className="sr-only">Edit</span>
+                        </Button>
+                      </Link>
+                      <AlertDialog>
+                        <AlertDialogTrigger>
+                          <Button
+                            size="icon"
+                            variant="outline"
+                            onClick={() => setDeletingProductId(product.id)} // Set the ID to be deleted
+                          >
                             <Trash size="16" variant="Bulk" />
                             <span className="sr-only">Delete</span>
                           </Button>
-                        </DialogTrigger>
-                        <DialogContent>
-                          <DialogHeader>
-                            <DialogTitle>Confirm Delete</DialogTitle>
-                            <DialogDescription>
-                              Are you sure you want to delete this product?
-                            </DialogDescription>
-                          </DialogHeader>
-                          <DialogFooter>
-                            <Button variant="outline">Yes</Button>
-                            <Button variant="outline">No</Button>
-                          </DialogFooter>
-                        </DialogContent>
-                      </Dialog>
+                        </AlertDialogTrigger>
+                        <AlertDialogContent>
+                          <AlertDialogHeader>
+                            <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+                            <AlertDialogDescription>
+                              This action cannot be undone. This will permanently delete your account
+                              and remove your data from our servers.
+                            </AlertDialogDescription>
+                          </AlertDialogHeader>
+                          <AlertDialogFooter>
+                            <AlertDialogCancel onClick={() => setDeletingProductId(null)} >Cancel</AlertDialogCancel>
+                            <AlertDialogAction onClick={handleDelete}>Continue</AlertDialogAction>
+                          </AlertDialogFooter>
+                        </AlertDialogContent>
+                      </AlertDialog>
                       <Button size="icon" variant="outline">
                         <Eye size="16" variant="Bulk" />
                         <span className="sr-only">View</span>
