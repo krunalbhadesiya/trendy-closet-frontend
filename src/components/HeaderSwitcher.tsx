@@ -1,37 +1,22 @@
+// src/HeaderSwitcher.tsx
 import React from 'react';
 import Header from './Header';
 import AuthHeader from './AuthHeader';
 import UserHeader from './UserHeader';
-
-const Header1 = () => {
-    return <Header />;
-};
-
-const Header2 = () => {
-    return <AuthHeader />;
-};
-
-const Header3 = () => {
-    return <UserHeader />;
-};
+import { useAuth } from '../hooks/useAuth';
 
 const HeaderSwitcher: React.FC = () => {
-    const token = localStorage.getItem('token');
-    const role = localStorage.getItem('role');
+  const { isAuthenticated, role } = useAuth();
 
-    if (!token) {
-        return <Header1 />;
-    }
+  if (isAuthenticated && role === 'admin') {
+    return <AuthHeader />;
+  }
 
-    if (role === 'admin') {
-        return <Header2 />;
-    }
+  if (isAuthenticated) {
+    return <UserHeader />;
+  }
 
-    if (token || !role) {
-        return <Header3 />;
-    }
-
-    return <Header />;
+  return <Header />;
 };
 
 export default HeaderSwitcher;
