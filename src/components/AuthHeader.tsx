@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import Logo from '../assets/logo.png';
+import Logo from '../assets/Logo-Black.png';
 import { Button } from './ui/button';
 import { Category, HambergerMenu, Home, Sms, Box, Book, Shop } from 'iconsax-react';
-import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger, } from "@/components/ui/dialog"
+import { Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger, } from "@/components/ui/dialog"
 import UserDialogButton from './UserDialogButton';
+import UserDialogButtonMobile from './UserDialogButtonMobile';
 interface NavItemProps {
   to: string;
   currentPath: string;
@@ -63,8 +64,9 @@ const AuthHeader: React.FC = () => {
           </NavItem>
         </ul>
         <div className='flex items-center gap-2'>
-          <UserDialogButton />
-          {isMobile && (
+          {!isMobile && (
+            <UserDialogButton />
+          )}          {isMobile && (
             <Dialog open={isMenuOpen} onOpenChange={setIsMenuOpen}>
               <DialogTrigger>
                 <HambergerMenu size="32" variant="Bulk" />
@@ -72,8 +74,8 @@ const AuthHeader: React.FC = () => {
               <DialogContent className='w-full h-screen'>
                 <DialogHeader>
                   <DialogTitle>
-                    <Link to="/">
-                      <img src={Logo} className="mx-auto w-14" alt="Logo" />
+                    <Link to="/" className='flex flex-row items-center justify-center gap-4 '>
+                      <img src={Logo} className=" w-14" alt="Logo" />
                       Trendy Closet
                     </Link>
                   </DialogTitle>
@@ -96,11 +98,11 @@ const AuthHeader: React.FC = () => {
                           <Box variant='Bulk' />
                           Order
                         </NavItem>
-                        <NavItem to="/admin/dashboard/review" currentPath={location.pathname}>
+                        <NavItem to="/admin/dashboard/reviews" currentPath={location.pathname}>
                           <Book variant='Bulk' />
                           Reviews
                         </NavItem>
-                        <NavItem to="/admin/dashboard/ContactData" currentPath={location.pathname}>
+                        <NavItem to="/admin/dashboard/contactformdata" currentPath={location.pathname}>
                           <Sms variant='Bulk' />
                           Contact Data
                         </NavItem>
@@ -108,6 +110,16 @@ const AuthHeader: React.FC = () => {
                     </div>
                   </DialogDescription>
                 </DialogHeader>
+                <DialogFooter>
+                  <div className='w-full flex flex-col gap-2'>
+                    <UserDialogButtonMobile />
+                    <DialogClose asChild className='w-full'>
+                      <Button type="button" variant="outline">
+                        Close
+                      </Button>
+                    </DialogClose>
+                  </div>
+                </DialogFooter>
               </DialogContent>
             </Dialog>
           )}
@@ -121,7 +133,7 @@ const AuthHeader: React.FC = () => {
 const NavItem: React.FC<NavItemProps> = ({ to, currentPath, children }) => {
   const isActive = to === currentPath;
   return (
-    <li>
+    <li className='my-2'>
       <Link to={to} className={isActive ? 'bg-secondary' : ''}>
         <Button variant={'ghost'} className={`flex gap-2 ${isActive ? 'border-2 border-border' : ''}`}>
           {children}

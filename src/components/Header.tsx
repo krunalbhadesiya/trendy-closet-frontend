@@ -5,13 +5,16 @@ import { Button } from './ui/button';
 import { HambergerMenu } from 'iconsax-react';
 import {
   Dialog,
+  DialogClose,
   DialogContent,
   DialogDescription,
+  DialogFooter,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog"
 import UserDialogButton from './UserDialogButton';
+import UserDialogButtonMobile from './UserDialogButtonMobile';
 
 interface NavItemProps {
   to: string;
@@ -56,8 +59,10 @@ const Header: React.FC = () => {
           <NavItem to="/aboutus" currentPath={location.pathname}>About Us</NavItem>
           <NavItem to="/contactus" currentPath={location.pathname}>Contact Us</NavItem>
         </ul>
-        <div className='flex items-center gap-2'>
-          <UserDialogButton />
+        <div className='flex items-center  gap-2'>
+          {!isMobile && (
+            <UserDialogButton />
+          )}
           {/* <Link to="/login">
             <Button variant={"outline"}>Login</Button>
           </Link> */}
@@ -70,8 +75,8 @@ const Header: React.FC = () => {
               <DialogContent className='w-full h-screen'>
                 <DialogHeader>
                   <DialogTitle>
-                    <Link to="/">
-                      <img src={Logo} className="mx-auto w-14" alt="Logo" />
+                    <Link to="/" className='flex flex-row items-center justify-center gap-4 '>
+                      <img src={Logo} className=" w-14" alt="Logo" />
                       Trendy Closet
                     </Link>
                   </DialogTitle>
@@ -86,6 +91,16 @@ const Header: React.FC = () => {
                     </div>
                   </DialogDescription>
                 </DialogHeader>
+                <DialogFooter>
+                  <div className='w-full flex flex-col gap-2'>
+                    <UserDialogButtonMobile />
+                    <DialogClose asChild className='w-full'>
+                      <Button type="button" variant="outline">
+                        Close
+                      </Button>
+                    </DialogClose>
+                  </div>
+                </DialogFooter>
               </DialogContent>
             </Dialog>
           )}
