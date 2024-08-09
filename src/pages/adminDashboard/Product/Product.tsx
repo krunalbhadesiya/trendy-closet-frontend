@@ -111,13 +111,16 @@ export default function AdminProduct() {
                 <img src={product.photoUrl} alt={product.name} width={500} height={400} className="object-cover w-full h-64" />
                 <CardContent className="p-4 bg-background">
                   <h3 className="text-xl font-bold">{product.name}</h3>
-                  <p className="text-sm text-muted-foreground">{product.description}</p>
-                  <div className="flex items-center justify-between">
-                    <h4 className="text-lg font-semibold">${product.price.toFixed(2)}</h4>
+                  {/* <p className="text-sm text-muted-foreground">{product.description}</p> */}
+                  <div className="border-t-2 mt-2 pt-2 flex items-center justify-between">
+                    <h4 className="text-lg font-semibold">₹ {product.price.toFixed(2)}</h4>
                     <div className="flex gap-2">
                       <Link to={`/admin/dashboard/product/update/${product._id}`}>
-                        <Button size="icon" variant="outline">
-                          <Edit size="16" variant="Bulk" />
+                        <Button
+                          size="icon"
+                          className="rounded-full"
+                          variant="outline">
+                          <Edit size="18" variant="Bulk" />
                           <span className="sr-only">Edit</span>
                         </Button>
                       </Link>
@@ -126,9 +129,10 @@ export default function AdminProduct() {
                           <Button
                             size="icon"
                             variant="outline"
+                            className="rounded-full"
                             onClick={() => setDeletingProductId(product.id)} // Set the ID to be deleted
                           >
-                            <Trash size="16" variant="Bulk" />
+                            <Trash size="18" variant="Bulk" />
                             <span className="sr-only">Delete</span>
                           </Button>
                         </AlertDialogTrigger>
@@ -146,8 +150,11 @@ export default function AdminProduct() {
                           </AlertDialogFooter>
                         </AlertDialogContent>
                       </AlertDialog>
-                      <Button size="icon" variant="outline">
-                        <Eye size="16" variant="Bulk" />
+                      <Button
+                        size="icon"
+                        className="rounded-full"
+                        variant="outline">
+                        <Eye size="18" variant="Bulk" />
                         <span className="sr-only">View</span>
                       </Button>
                     </div>

@@ -63,7 +63,7 @@ const AuthHeader: React.FC = () => {
             <Book variant='Bulk' />
             Reviews
           </NavItem>
-          <NavItem to="/admin/dashboard/ContactData" currentPath={location.pathname}>
+          <NavItem to="admin/dashboard/contactformdata" currentPath={location.pathname}>
             <Sms variant='Bulk' />
             Contact Data
           </NavItem>

@@ -7,6 +7,7 @@ import {
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { useAuth } from "@/hooks/useAuth";
+import { User } from "iconsax-react";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom"; // Import Link here
 
@@ -30,7 +31,10 @@ const UserDialogButton = () => {
             <DropdownMenu>
                 <DropdownMenuTrigger>
                     {/* <img src={profile ? profile : "./user-avtar.png"} className="w-10 h-10 md:w-14 md:h-14 border-2 rounded-full" alt="User Avatar" /> */}
-                    <img src="./user-avtar.png" className="w-10 h-10 md:w-14 md:h-14 border-2 rounded-full" alt="User Avatar" />
+                    {/* <img src="./user-avtar.png" className="w-10 h-10 md:w-14 md:h-14 border-2 rounded-full" alt="User Avatar" /> */}
+                    <div className="w-10 h-10 md:w-14 md:h-14 border-2 rounded-full flex items-center justify-center">
+                    <User variant="Bulk" size={28}/>
+                    </div>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent>
                     {isAuthenticated ? (

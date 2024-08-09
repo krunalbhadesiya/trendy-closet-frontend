@@ -14,17 +14,9 @@ interface Contact {
     label: string;
 }
 
-const AdminContactFormData = () => {
-    return (
-        <div>
-            <Component />
-        </div>
-    );
-};
 
-export default AdminContactFormData;
 
-function Component() {
+function AdminContactFormData() {
     // const [contacts, setContacts] = useState<Contact[]>([
     const [contacts] = useState<Contact[]>([
         {
@@ -50,6 +42,7 @@ function Component() {
             phone: "555-9012",
             notes: "Frequent customer",
             label: "Cancel",
+
         },
         {
             id: 4,
@@ -163,3 +156,4 @@ function Component() {
         </div>
     );
 }
+export default AdminContactFormData;
