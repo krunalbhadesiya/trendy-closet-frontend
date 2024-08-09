@@ -18,6 +18,7 @@ import { Link } from "react-router-dom";
 import axios from "axios";
 
 interface Product {
+  _id: string;  // Update from id to _id
   id: string;
   name: string;
   description: string;
@@ -44,7 +45,8 @@ export default function AdminProduct() {
           }
         });
 
-        console.log("API Response:", response.data); // Log the response
+        // Log the response
+        // console.log("API Response:", response.data); 
 
         // Adjust based on actual response structure
         if (Array.isArray(response.data.products)) {
@@ -113,7 +115,7 @@ export default function AdminProduct() {
                   <div className="flex items-center justify-between">
                     <h4 className="text-lg font-semibold">${product.price.toFixed(2)}</h4>
                     <div className="flex gap-2">
-                      <Link to="${product.id}">
+                      <Link to={`/admin/dashboard/product/update/${product._id}`}>
                         <Button size="icon" variant="outline">
                           <Edit size="16" variant="Bulk" />
                           <span className="sr-only">Edit</span>
