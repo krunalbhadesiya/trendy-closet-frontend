@@ -53,7 +53,7 @@ export default function Products() {
                 <p>Loading products...</p>
             ) : (
                 product && (
-                    <div className="grid md:grid-cols-2 gap-6 lg:gap-12 items-start max-w-6xl px-4 mx-auto py-6">
+                    <div className="grid md:grid-cols-2 gap-6 lg:gap-12 items-start max-w-6xl px-4 mx-auto py-12">
                         <div className="grid gap-4">
                             <img
                                 src={product.photoUrl}
@@ -61,13 +61,13 @@ export default function Products() {
                                 className="aspect-square object-cover border w-full rounded-lg overflow-hidden"
                             />
                         </div>
-                        <div className="grid gap-4 md:gap-10 items-start">
+                        <div className="grid gap-4 md:gap-6 items-start">
                             <div className="grid gap-2">
                                 <h1 className="font-bold text-3xl lg:text-4xl">{product.name}</h1>
                                 <p className="text-muted-foreground">{product.description}</p>
                             </div>
                             <div className="grid gap-2">
-                                <div className="flex items-center gap-4">
+                                {/* <div className="flex items-center gap-4">
                                     <div className="flex items-center gap-0.5">
                                         <Star className="w-5 h-5 fill-primary" />
                                         <Star className="w-5 h-5 fill-primary" />
@@ -76,18 +76,21 @@ export default function Products() {
                                         <Star className="w-5 h-5 fill-muted stroke-muted-foreground" />
                                     </div>
                                     <span className="text-muted-foreground">4.3 (124 reviews)</span>
-                                </div>
+                                </div> */}
                                 <div className="text-4xl font-bold">₹ {product.price}</div>
                             </div>
-                            <div className="grid gap-2">
-                                <Label htmlFor="color" className="text-base">
-                                    Color: {product.color.toUpperCase()}
-                                </Label>
+                            <div className="text-base">
+                                <span className="font-bold mr-1">
+                                    Color:
+                                </span>
+                                {product.color.toUpperCase()}
+
                             </div>
-                            <div className="grid gap-2">
-                                <Label htmlFor="size" className="text-base">
-                                    Size: {product.size.toUpperCase()}
-                                </Label>
+                            <div className="text-base">
+                                <span className="font-bold mr-1">
+                                    Size:
+                                </span>
+                                {product.size.toUpperCase()}
                             </div>
                             <Button size="lg">Add to Cart</Button>
                             <Separator />

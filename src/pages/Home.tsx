@@ -75,7 +75,7 @@ function Home() {
                 <p className="text-red-500">Error: {error}</p>
               ) : products.length > 0 ? (
                 products.map((product) => (
-                  <CarouselItem key={product._id} className="basis-1/4">
+                  <CarouselItem key={product._id} className="md:basis-1/4">
                     <div className="rounded-lg border bg-card text-card-foreground shadow-sm h-full">
                       <img
                         src={product.photoUrl || "/product/tshirt-2.png"}
@@ -84,10 +84,14 @@ function Home() {
                       />
                       <div className="p-4 space-y-2">
                         <h3 className="text-lg font-semibold">{product.name}</h3>
-                        <p className="text-muted-foreground">{product.description}</p>
+                        <p className="text-muted-foreground line-clamp-2">{product.description}</p>
                         <div className="flex items-center justify-between">
                           <span className="text-lg font-bold">₹{product.price}</span>
-                          <Button className="h-9 rounded-md px-3">Add to Cart</Button>
+                          <Link to={`products/${product._id}`} >
+                            <Button variant={"outline"}>
+                              View More
+                            </Button>
+                          </Link>
                         </div>
                       </div>
                     </div>
@@ -115,7 +119,7 @@ function Home() {
                 <p className="text-red-500">Error: {error}</p>
               ) : products.length > 0 ? (
                 products.map((product) => (
-                  <CarouselItem key={product._id} className="basis-1/4">
+                  <CarouselItem key={product._id} className="md:basis-1/4">
                     <div className="relative group">
                       <img
                         src={product.photoUrl}

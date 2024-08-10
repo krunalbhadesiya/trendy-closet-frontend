@@ -62,12 +62,11 @@ export default function Store() {
             />
             <div className="p-4">
               <h3 className="text-lg font-bold mb-2">{product.name}</h3>
-              <p className="text-muted-foreground mb-4">{product.description}</p>
+              <p className="text-muted-foreground mb-4 line-clamp-2">{product.description}</p>
               <div className="flex items-center justify-between">
                 <span className="text-lg font-bold">₹ {product.price}</span>
-                <Button variant={"outline"}>Add to Cart</Button>
                 <Link to={`../products/${product._id}`}>
-                  <Button >
+                  <Button variant={"outline"}>
                     View More
                   </Button>
                 </Link>
