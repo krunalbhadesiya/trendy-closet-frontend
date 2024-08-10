@@ -29,6 +29,7 @@ import AddOrder from './pages/userDashboard/Order/AddOrder/AddOrder';
 import { Helmet } from 'react-helmet';
 import Oreder from './pages/userDashboard/Order/Order';
 import HeaderSwitcher from './components/HeaderSwitcher';
+import Products from './pages/store/[id]';
 
 function MainApp() {
   const { isAuthenticated } = useAuth();
@@ -74,6 +75,10 @@ function MainApp() {
         <Route path="/auth/register" element={<Register />} />
         <Route path="/auth/forget" element={<ForgetPassword />} />
         <Route path="/store" element={<Store />} />
+        <Route
+          path="products/:id"
+          element={<Products/>}
+        />
         <Route
           path="admin/dashboard"
           element={

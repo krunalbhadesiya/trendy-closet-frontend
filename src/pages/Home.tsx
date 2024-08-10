@@ -1,4 +1,4 @@
-import Autoplay from "embla-carousel-autoplay"
+import Autoplay from "embla-carousel-autoplay";
 import { Star } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useState, useEffect, useCallback } from "react";
@@ -10,6 +10,7 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "@/components/ui/carousel";
+import { Link } from "react-router-dom";
 
 interface Product {
   _id: string;
@@ -26,20 +27,9 @@ function Home() {
 
   const fetchProducts = useCallback(async () => {
     try {
-      
-      const response = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/products`, {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
-
-      const fetchedProducts = response.data.products;
-      if (Array.isArray(fetchedProducts)) {
-        setProducts(fetchedProducts);
-        setError(null);
-      } else {
-        throw new Error("Unexpected response format");
-      }
+      const { data } = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/products`);
+      setProducts(data.products);
+      setError(null);
     } catch (err: any) {
       setError(err.message);
       console.error("Error fetching products:", err.message);
@@ -77,13 +67,7 @@ function Home() {
       <section className="py-12 md:py-16 lg:py-20">
         <div className="container">
           <h2 className="text-2xl md:text-3xl font-bold mb-6">Featured Products</h2>
-          <Carousel
-            plugins={[
-              Autoplay({
-                delay: 2000,
-              }),
-            ]}
-          >
+          <Carousel plugins={[Autoplay({ delay: 2000 })]}>
             <CarouselContent>
               {isLoading ? (
                 <p>Loading products...</p>
@@ -123,13 +107,7 @@ function Home() {
       <section className="py-12 md:py-16 lg:py-20">
         <div className="container">
           <h2 className="text-2xl md:text-3xl font-bold mb-6">Product Gallery</h2>
-          <Carousel
-            plugins={[
-              Autoplay({
-                delay: 2000,
-              }),
-            ]}
-          > {/* Ensure that Carousel wraps CarouselContent */}
+          <Carousel plugins={[Autoplay({ delay: 2000 })]}>
             <CarouselContent>
               {isLoading ? (
                 <p>Loading products...</p>
@@ -139,18 +117,15 @@ function Home() {
                 products.map((product) => (
                   <CarouselItem key={product._id} className="basis-1/4">
                     <div className="relative group">
-                      <a className="absolute inset-0 z-10" href="#">
-                        <span className="sr-only">View Product</span>
-                      </a>
                       <img
                         src={product.photoUrl}
                         alt={product.name}
                         className="aspect-square object-cover rounded-lg group-hover:opacity-50 transition-opacity"
                       />
                       <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
-                        <button className="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-primary text-primary-foreground hover:bg-primary/90 h-9 rounded-md px-3">
-                          View Product
-                        </button>
+                        <Link to={`products/${product._id}`} >
+                          <Button className="h-9 rounded-md px-3">View Product</Button>
+                        </Link>
                       </div>
                     </div>
                   </CarouselItem>
@@ -171,13 +146,11 @@ function Home() {
             {[...Array(3)].map((_, index) => (
               <div key={index} className="rounded-lg border bg-card text-card-foreground shadow-sm p-6 space-y-4">
                 <div className="flex items-center gap-2">
-                  <span className="relative flex h-10 w-10 shrink-0 overflow-hidden rounded-full">
-                    <img
-                      className="aspect-square h-full w-full"
-                      src="/user-avatar.png"
-                      alt="user"
-                    />
-                  </span>
+                  <img
+                    className="h-10 w-10 rounded-full"
+                    src="/user-avatar.png"
+                    alt="user"
+                  />
                   <div>
                     <h4 className="font-semibold">John Doe</h4>
                     <p className="text-muted-foreground text-sm">Satisfied Customer</p>
