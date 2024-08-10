@@ -1,6 +1,7 @@
 import { useState, useEffect, useCallback } from "react";
 import { Button } from "@/components/ui/button";
 import axios from "axios";
+import { Link } from "react-router-dom";
 
 interface Product {
   _id: string;
@@ -63,8 +64,13 @@ export default function Store() {
               <h3 className="text-lg font-bold mb-2">{product.name}</h3>
               <p className="text-muted-foreground mb-4">{product.description}</p>
               <div className="flex items-center justify-between">
-                <span className="text-lg font-bold">${product.price}</span>
-                <Button>Add to Cart</Button>
+                <span className="text-lg font-bold">₹ {product.price}</span>
+                <Button variant={"outline"}>Add to Cart</Button>
+                <Link to={`../products/${product._id}`}>
+                  <Button >
+                    View More
+                  </Button>
+                </Link>
               </div>
             </div>
           </div>

@@ -81,12 +81,12 @@ export default function Products() {
                             </div>
                             <div className="grid gap-2">
                                 <Label htmlFor="color" className="text-base">
-                                    Color: {product.color}
+                                    Color: {product.color.toUpperCase()}
                                 </Label>
                             </div>
                             <div className="grid gap-2">
                                 <Label htmlFor="size" className="text-base">
-                                    Size: {product.size}
+                                    Size: {product.size.toUpperCase()}
                                 </Label>
                             </div>
                             <Button size="lg">Add to Cart</Button>
