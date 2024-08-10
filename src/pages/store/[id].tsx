@@ -1,8 +1,7 @@
-import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { ShirtIcon } from "lucide-react";
-import { Drop, Scissor, Star } from "iconsax-react";
+import { Drop, Scissor } from "iconsax-react";
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axios";
