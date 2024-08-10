@@ -9,7 +9,6 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '
 import { Input } from '@/components/ui/input';
 import { toast } from '@/components/ui/use-toast';
 
-
 const FormSchema = z.object({
   name: z.string().min(2, {
     message: "Name must be at least 2 characters.",
@@ -20,8 +19,11 @@ const FormSchema = z.object({
   phone: z.string().min(10, {
     message: "Phone number must be at least 10 characters.",
   }),
-  message: z.string().min(10, {
-    message: "Message must be at least 10 characters.",
+  notes: z.string().min(10, { // Changed from message to notes
+    message: "Notes must be at least 10 characters.",
+  }),
+  label: z.string().nonempty({ // Ensure label is required
+    message: "Label is required.",
   }),
 });
 
@@ -34,15 +36,25 @@ function ContactUsForm() {
       name: "",
       email: "",
       phone: "",
-      message: "",
+      notes: "", // Changed from message to notes
+      label: "Progress",  // Default value for label
     },
   });
 
   const onSubmit = async (data: z.infer<typeof FormSchema>) => {
+   
     setIsSubmitting(true);
 
     try {
-      const response = await axios.post(`${import.meta.env.VITE_API_BASE_URL}/contacts`, data);
+      const response = await axios.post(
+        `${import.meta.env.VITE_API_BASE_URL}/contacts`,
+        data,
+        {
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        }
+      );
       console.log('API response:', response.data);
       toast({
         title: "Form Submitted Successfully",
@@ -54,7 +66,8 @@ function ContactUsForm() {
         name: "",
         email: "",
         phone: "",
-        message: "",
+        notes: "", // Changed from message to notes
+        label: "Progress",  // Reset label to default
       });
     } catch (error) {
       console.error('API error:', error);
@@ -111,13 +124,13 @@ function ContactUsForm() {
         />
         <FormField
           control={form.control}
-          name="message"
+          name="notes" // Changed from message to notes
           render={({ field }: { field: any }) => (
             <FormItem>
-              <FormLabel>Message</FormLabel>
+              <FormLabel>Notes</FormLabel> {/* Updated label */}
               <FormControl>
                 <textarea
-                  placeholder="Enter your message"
+                  placeholder="Enter your notes"
                   className="flex w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 min-h-[120px]"
                   {...field}
                 ></textarea>
@@ -126,7 +139,7 @@ function ContactUsForm() {
             </FormItem>
           )}
         />
-        <Button type="submit" disabled={isSubmitting}>Submit</Button>
+          <Button type="submit" disabled={isSubmitting}>Submit</Button>
       </form>
     </Form>
   );

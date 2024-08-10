@@ -1,8 +1,8 @@
-"use client"
-
 import { zodResolver } from "@hookform/resolvers/zod"
-import { useForm } from "react-hook-form"
+import { useForm, SubmitHandler } from "react-hook-form"
 import { z } from "zod"
+import axios from "axios"
+import { useState } from "react"
 
 import { Button } from "@/components/ui/button"
 import {
@@ -16,7 +16,11 @@ import {
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
 
+// Define the validation schema with Zod
 const registerSchema = z.object({
+  name: z.string().min(1, {
+    message: "Name is required.",
+  }),
   username: z.string().min(2, {
     message: "Username must be at least 2 characters.",
   }),
@@ -28,19 +32,50 @@ const registerSchema = z.object({
   }),
 })
 
+type RegisterFormData = z.infer<typeof registerSchema>
+
 export function RegisterForm() {
-  const form = useForm({
+  const [isLoading, setIsLoading] = useState(false)
+  const form = useForm<RegisterFormData>({
     resolver: zodResolver(registerSchema),
   })
 
-  const onSubmit = (data:any) => {
-    console.log(data)
-    // Handle registration logic here
+  // Define the onSubmit function with correct type
+  const onSubmit: SubmitHandler<RegisterFormData> = async (data) => {
+    setIsLoading(true)
+    try {
+      await axios.post(
+        `${import.meta.env.VITE_API_BASE_URL}/auth/register`,
+        data
+      )
+      // Use a native alert for notifications
+      alert(`Registration Successful. Welcome, ${data.username}!`)
+      window.location.href = '/auth/login'
+    } catch (error) {
+      console.error('Register error:', error)
+      alert('Registration failed. Please try again.')
+    } finally {
+      setIsLoading(false)
+    }
   }
 
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+        <FormField
+          control={form.control}
+          name="name"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Name</FormLabel>
+              <FormControl>
+                <Input placeholder="Name" {...field} />
+              </FormControl>
+              <FormDescription>Enter your full name.</FormDescription>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
         <FormField
           control={form.control}
           name="username"
@@ -82,7 +117,9 @@ export function RegisterForm() {
             </FormItem>
           )}
         />
-        <Button type="submit">Register</Button>
+        <Button type="submit" disabled={isLoading}>
+          {isLoading ? 'Registering...' : 'Register'}
+        </Button>
         <div className="mt-4">
           <a href="/auth/login">Already have an account? Login</a>
         </div>

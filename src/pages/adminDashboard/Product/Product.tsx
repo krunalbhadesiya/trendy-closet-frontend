@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Add, Edit, Eye, Trash } from "iconsax-react";
@@ -12,13 +12,13 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
   AlertDialogTrigger,
-} from "@/components/ui/alert-dialog"
+} from "@/components/ui/alert-dialog";
 
 import { Link } from "react-router-dom";
 import axios from "axios";
 
 interface Product {
-  _id: string;  // Update from id to _id
+  _id: string; // Update from id to _id
   id: string;
   name: string;
   description: string;
@@ -32,40 +32,33 @@ export default function AdminProduct() {
   const [error, setError] = useState<string | null>(null);
   const [deletingProductId, setDeletingProductId] = useState<string | null>(null);
 
-  useEffect(() => {
-    const fetchProducts = async () => {
-      try {
-        const token = localStorage.getItem("token");
-        if (!token) throw new Error("No token found. Please login.");
+  const fetchProducts = useCallback(async () => {
+    try {
+      const token = localStorage.getItem("token");
+      if (!token) throw new Error("No token found. Please login.");
 
-        const response = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/products`, {
-          headers: {
-            "Content-Type": "application/json",
-            "Authorization": `${token}` // Include the token in the Authorization header
-          }
-        });
+      const response = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/products`, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
 
-        // Log the response
-        // console.log("API Response:", response.data); 
-
-        // Adjust based on actual response structure
-        if (Array.isArray(response.data.products)) {
-          setProducts(response.data.products); // Example for wrapped response
-        } else {
-          throw new Error("Unexpected response format");
-        }
-      } catch (err) {
-        setError("Failed to fetch products.");
-        console.error(err);
-      } finally {
-        setIsLoading(false);
+      if (Array.isArray(response.data.products)) {
+        setProducts(response.data.products); // Example for wrapped response
+      } else {
+        throw new Error("Unexpected response format");
       }
-    };
-
-
-
-    fetchProducts();
+    } catch (err) {
+      setError("Failed to fetch products.");
+      console.error(err);
+    } finally {
+      setIsLoading(false);
+    }
   }, []);
+
+  useEffect(() => {
+    fetchProducts();
+  }, [fetchProducts]);
 
   const handleDelete = async () => {
     if (!deletingProductId) return;
@@ -77,18 +70,18 @@ export default function AdminProduct() {
       await axios.delete(`${import.meta.env.VITE_API_BASE_URL}/products/${deletingProductId}`, {
         headers: {
           "Content-Type": "application/json",
-          "Authorization": `${token}`
-        }
+          "Authorization": `Bearer ${token}`,
+        },
       });
 
-      setProducts(products.filter(product => product.id !== deletingProductId)); // Remove the deleted product from the list
+      // Re-fetch products after deletion
+      await fetchProducts();
       setDeletingProductId(null); // Clear the ID
     } catch (err) {
       setError("Failed to delete product.");
       console.error(err);
     }
   };
-
 
   return (
     <div className="flex min-h-screen w-full flex-col bg-muted/40 gap-1 p-4">
@@ -111,7 +104,6 @@ export default function AdminProduct() {
                 <img src={product.photoUrl} alt={product.name} width={500} height={400} className="object-cover w-full h-64" />
                 <CardContent className="p-4 bg-background">
                   <h3 className="text-xl font-bold">{product.name}</h3>
-                  {/* <p className="text-sm text-muted-foreground">{product.description}</p> */}
                   <div className="border-t-2 mt-2 pt-2 flex items-center justify-between">
                     <h4 className="text-lg font-semibold">₹ {product.price.toFixed(2)}</h4>
                     <div className="flex gap-2">
@@ -130,7 +122,7 @@ export default function AdminProduct() {
                             size="icon"
                             variant="outline"
                             className="rounded-full"
-                            onClick={() => setDeletingProductId(product.id)} // Set the ID to be deleted
+                            onClick={() => setDeletingProductId(product._id)} // Set the ID to be deleted
                           >
                             <Trash size="18" variant="Bulk" />
                             <span className="sr-only">Delete</span>
@@ -140,12 +132,11 @@ export default function AdminProduct() {
                           <AlertDialogHeader>
                             <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
                             <AlertDialogDescription>
-                              This action cannot be undone. This will permanently delete your account
-                              and remove your data from our servers.
+                              This action cannot be undone. This will permanently delete the product and remove it from our database.
                             </AlertDialogDescription>
                           </AlertDialogHeader>
                           <AlertDialogFooter>
-                            <AlertDialogCancel onClick={() => setDeletingProductId(null)} >Cancel</AlertDialogCancel>
+                            <AlertDialogCancel onClick={() => setDeletingProductId(null)}>Cancel</AlertDialogCancel>
                             <AlertDialogAction onClick={handleDelete}>Continue</AlertDialogAction>
                           </AlertDialogFooter>
                         </AlertDialogContent>

@@ -59,7 +59,7 @@ const AuthHeader: React.FC = () => {
             <Box variant='Bulk' />
             Order
           </NavItem>
-          <NavItem to="/admin/dashboard/review" currentPath={location.pathname}>
+          <NavItem to="/admin/dashboard/reviews" currentPath={location.pathname}>
             <Book variant='Bulk' />
             Reviews
           </NavItem>

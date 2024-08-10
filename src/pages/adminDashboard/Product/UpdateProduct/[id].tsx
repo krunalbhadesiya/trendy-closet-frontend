@@ -37,7 +37,6 @@ export default function UpdateProduct() {
         const response = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/products/${id}`, {
           headers: {
             "Content-Type": "application/json",
-            "Authorization": `Bearer ${token}`
           }
         });
         const productData = response.data.product;
@@ -87,7 +86,11 @@ export default function UpdateProduct() {
       if (image) {
         const formData = new FormData();
         formData.append("file", image);
-        const uploadResponse = await axios.post(`${import.meta.env.VITE_API_BASE_URL}/upload`, formData);
+        const uploadResponse = await axios.post(`${import.meta.env.VITE_API_BASE_URL}/upload`, formData, {
+          headers: {
+            "Authorization": `${token}`
+          }
+        });
         photoUrl = uploadResponse.data.url;
       }
 
@@ -105,7 +108,7 @@ export default function UpdateProduct() {
       await axios.put(`${import.meta.env.VITE_API_BASE_URL}/products/${id}`, productData, {
         headers: {
           "Content-Type": "application/json",
-          "Authorization": `Bearer ${token}`
+          "Authorization": `${token}`
         }
       });
 
