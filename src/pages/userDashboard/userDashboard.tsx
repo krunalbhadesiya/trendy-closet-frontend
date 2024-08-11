@@ -100,13 +100,17 @@ export default function UserDashboard() {
                         <Card>
                             <CardContent className="text-center p-2">
                                 <div className="text-xl font-bold">Total Orders</div>
-                                <div className="text-3xl font-bold">{orderCount}</div>
+                                <div className="text-3xl font-bold">
+                                    {isLoadingOrders ? 'Loading...' : orderCount}
+                                </div>
                             </CardContent>
                         </Card>
                         <Card>
                             <CardContent className="text-center p-2">
                                 <div className="text-xl font-bold">Total Cart Items</div>
-                                <div className="text-3xl font-bold">{cartCount}</div>
+                                <div className="text-3xl font-bold">
+                                    {isLoadingCart ? 'Loading...' : cartCount}
+                                </div>
                             </CardContent>
                         </Card>
                     </div>
@@ -120,12 +124,11 @@ export default function UserDashboard() {
                         </div>
                         <div className="mt-4 border shadow-sm rounded-lg overflow-hidden">
                             {isLoadingOrders ? (
-                                <p>Loading...</p>
+                                <p>Loading orders...</p>
                             ) : (
                                 <Table>
                                     <TableHeader>
                                         <TableRow>
-                                            {/* <TableHead>Order #</TableHead> */}
                                             <TableHead>Items</TableHead>
                                             <TableHead>Date</TableHead>
                                             <TableHead>Total</TableHead>
@@ -135,7 +138,6 @@ export default function UserDashboard() {
                                     <TableBody>
                                         {orders.map((order) => (
                                             <TableRow key={order._id}>
-                                                {/* <TableCell>#{order._id}</TableCell> */}
                                                 <TableCell>
                                                     {order.products.map((item, index) => (
                                                         <div key={index}>
