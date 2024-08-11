@@ -152,7 +152,7 @@ function Home() {
                 <div className="flex items-center gap-2">
                   <img
                     className="h-10 w-10 rounded-full"
-                    src="/user-avatar.png"
+                    src="./user-avtar.png"
                     alt="user"
                   />
                   <div>
@@ -165,7 +165,7 @@ function Home() {
                     <Star
                       key={i}
                       fill="currentColor"
-                      className={i < 4 ? "text-secondary" : "text-muted-foreground"}
+                      className={i < 4 ? "text-muted-foreground" : "text-secondary"}
                     />
                   ))}
                 </div>
