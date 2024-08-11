@@ -51,6 +51,18 @@ function LoginForm() {
                 localStorage.setItem('role', role);
             }
 
+            // Fetch user profile after login
+            const profileResponse = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/auth/profile`, {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            });
+
+            const { username, email, name } = profileResponse.data.user;
+            localStorage.setItem('username', username);
+            localStorage.setItem('email', email);
+            localStorage.setItem('name', name);
+
             toast({
                 title: "Login Successful",
                 description: `Welcome, ${data.email}!`,
