@@ -46,13 +46,25 @@ export default function OrderMultiStepForm({ cartItems }: OrderMultiStepFormProp
             0
         );
 
+        // console.log("Submitting Order:", {
+        //     username,
+        //     customerName,
+        //     email,
+        //     phone: formData.phone,
+        //     address: formData.address,
+        //     city: formData.city,
+        //     state: formData.state,
+        //     zip: formData.zip,
+        //     totalAmount
+        // });
+
         try {
-            await axios.post(
+            const response = await axios.post(
                 `${import.meta.env.VITE_API_BASE_URL}/orders`,
                 {
-                    username: username,
-                    customerName: customerName,
-                    email: email,
+                    username,
+                    customerName,
+                    email,
                     phone: formData.phone,
                     address: formData.address,
                     city: formData.city,
@@ -60,6 +72,7 @@ export default function OrderMultiStepForm({ cartItems }: OrderMultiStepFormProp
                     zip: formData.zip,
                     products: cartItems.map((item) => ({
                         productId: item.pid,
+                        productName: item.productName,
                         qty: item.cartCount,
                     })),
                     paymentType: paymentMethod,
@@ -70,13 +83,31 @@ export default function OrderMultiStepForm({ cartItems }: OrderMultiStepFormProp
                 },
                 {
                     headers: {
-                        Authorization: `${token}`,
+                        Authorization: `Bearer ${token}`,
                         "Content-Type": "application/json",
                     },
                 }
             );
+
+            // console.log("Order Response:", response);
+
+            if (response.status === 200 || response.status === 201 || response.status === 204) {
+                for (const item of cartItems) {
+                    await axios.delete(
+                        `${import.meta.env.VITE_API_BASE_URL}/cart/${item._id}`,
+                        {
+                            headers: {
+                                Authorization: `${token}`,
+                                "Content-Type": "application/json",
+                            },
+                        }
+                    );
+                    console.log(`Deleted Cart Item ID: ${item._id}`);
+                }
+            }
         } catch (error: any) {
             console.error("Error submitting order", error.response ? error.response.data : error.message);
+            alert("An error occurred. Please try again later.");
         }
     };
 
