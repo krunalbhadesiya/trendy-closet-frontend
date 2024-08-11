@@ -1,159 +1,169 @@
-import { Link } from "react-router-dom"
-import { Table, TableHeader, TableRow, TableHead, TableBody, TableCell } from "@/components/ui/table"
-import { Badge } from "@/components/ui/badge"
+import { useEffect, useState } from "react";
+import axios from "axios";
+import { Table, TableHeader, TableRow, TableHead, TableBody, TableCell } from "@/components/ui/table";
+import { Badge } from "@/components/ui/badge";
+import { Link } from "react-router-dom";
+import { toast } from "@/components/ui/use-toast";
+import { Card, CardContent } from "@/components/ui/card";
+
+type Order = {
+    _id: string;
+    createdAt: string;
+    customerName: string;
+    products: { productName: string; qty: number }[];
+    totalAmount: number;
+    status: string;
+};
+
+type CartItem = {
+    _id: string;
+    username: string;
+    pid: string;
+    productName: string;
+    productPhotoUrl: string;
+    productSize: string;
+    productColor: string;
+    productPrice: number;
+    cartCount: number;
+};
 
 export default function UserDashboard() {
-    const orders = [
-        {
-            id: 1,
-            date: "2023-05-12",
-            items: [
-                { name: "Product A", quantity: 2 },
-                { name: "Product B", quantity: 1 },
-            ],
-            total: 150.0,
-            status: "Delivered",
-        },
-        {
-            id: 2,
-            date: "2023-04-28",
-            items: [
-                { name: "Product C", quantity: 1 },
-                { name: "Product D", quantity: 3 },
-            ],
-            total: 250.0,
-            status: "Shipped",
-        },
-        {
-            id: 3,
-            date: "2023-03-15",
-            items: [
-                { name: "Product E", quantity: 1 },
-                { name: "Product F", quantity: 2 },
-            ],
-            total: 180.0,
-            status: "Pending",
-        },
-        {
-            id: 4,
-            date: "2023-02-22",
-            items: [
-                { name: "Product G", quantity: 4 },
-                { name: "Product H", quantity: 1 },
-            ],
-            total: 320.0,
-            status: "Delivered",
-        },
-        {
-            id: 5,
-            date: "2023-01-08",
-            items: [
-                { name: "Product I", quantity: 2 },
-                { name: "Product J", quantity: 3 },
-            ],
-            total: 400.0,
-            status: "Shipped",
-        },
-    ]
-    const cart = [
-        {
-            id: 1,
-            name: "Product A",
-            quantity: 2,
-            price: 25.0,
-        },
-        {
-            id: 2,
-            name: "Product B",
-            quantity: 1,
-            price: 50.0,
-        },
-        {
-            id: 3,
-            name: "Product C",
-            quantity: 3,
-            price: 15.0,
-        },
-    ]
+    const [orders, setOrders] = useState<Order[]>([]);
+    const [cartItems, setCartItems] = useState<CartItem[]>([]);
+    const [isLoadingOrders, setIsLoadingOrders] = useState(true);
+    const [isLoadingCart, setIsLoadingCart] = useState(true);
+
+    useEffect(() => {
+        const fetchData = async () => {
+            const token = localStorage.getItem("token");
+            const username = localStorage.getItem("username");
+
+            if (!token || !username) {
+                toast({
+                    title: "Error",
+                    description: "You need to be logged in to view this information.",
+                });
+                setIsLoadingOrders(false);
+                setIsLoadingCart(false);
+                return;
+            }
+
+            try {
+                // Fetch orders
+                const ordersResponse = await axios.get(
+                    `${import.meta.env.VITE_API_BASE_URL}/orders/username/${username}`,
+                    {
+                        headers: {
+                            Authorization: `Bearer ${token}`,
+                            "Content-Type": "application/json",
+                        },
+                    }
+                );
+                setOrders(ordersResponse.data.orders || []); // Ensure this matches your backend response
+
+                // Fetch cart items
+                const cartResponse = await axios.get(
+                    `${import.meta.env.VITE_API_BASE_URL}/cart/${username}`,
+                    {
+                        headers: {
+                            Authorization: `Bearer ${token}`,
+                            "Content-Type": "application/json",
+                        },
+                    }
+                );
+                setCartItems(cartResponse.data.cart || []); // Access cart items from the cart key
+
+            } catch (error) {
+                console.error("Error fetching data", error);
+                toast({
+                    title: "Error",
+                    description: "There was an error fetching your data. Please try again.",
+                });
+            } finally {
+                setIsLoadingOrders(false);
+                setIsLoadingCart(false);
+            }
+        };
+
+        fetchData();
+    }, []);
+
+    // Get counts
+    const orderCount = orders.length;
+    const cartCount = cartItems.reduce((acc, item) => acc + item.cartCount, 0);
+
     return (
         <div className="flex min-h-screen flex-col bg-muted/40">
-
             <div className="flex-1 p-4 sm:p-6">
                 <div className="grid gap-6">
+                    <div className="grid grid-cols-2 gap-4">
+                        <Card>
+                            <CardContent className="text-center p-2">
+                                <div className="text-xl font-bold">Total Orders</div>
+                                <div className="text-3xl font-bold">{orderCount}</div>
+                            </CardContent>
+                        </Card>
+                        <Card>
+                            <CardContent className="text-center p-2">
+                                <div className="text-xl font-bold">Total Cart Items</div>
+                                <div className="text-3xl font-bold">{cartCount}</div>
+                            </CardContent>
+                        </Card>
+                    </div>
+                    {/* Orders Section */}
                     <div>
                         <div className="flex items-center justify-between">
                             <h2 className="text-2xl font-bold">Recent Orders</h2>
-                            <Link to="user/order" className="text-sm font-medium underline">
+                            <Link to="user/dashboard/order" className="text-sm font-medium underline">
                                 View more
                             </Link>
                         </div>
                         <div className="mt-4 border shadow-sm rounded-lg overflow-hidden">
-                            <Table>
-                                <TableHeader>
-                                    <TableRow>
-                                        <TableHead>Order #</TableHead>
-                                        <TableHead>Date</TableHead>
-                                        <TableHead>Items</TableHead>
-                                        <TableHead>Total</TableHead>
-                                        <TableHead>Status</TableHead>
-                                    </TableRow>
-                                </TableHeader>
-                                <TableBody>
-                                    {orders.map((order) => (
-                                        <TableRow key={order.id}>
-                                            <TableCell>#{order.id}</TableCell>
-                                            <TableCell>{order.date}</TableCell>
-                                            <TableCell>
-                                                {order.items.map((item, index) => (
-                                                    <div key={index}>
-                                                        {item.quantity} x {item.name}
-                                                    </div>
-                                                ))}
-                                            </TableCell>
-                                            <TableCell>${order.total.toFixed(2)}</TableCell>
-                                            <TableCell>
-                                                <Badge variant={"outline"}>
-                                                    {order.status}
-                                                </Badge>
-                                            </TableCell>
+                            {isLoadingOrders ? (
+                                <p>Loading...</p>
+                            ) : (
+                                <Table>
+                                    <TableHeader>
+                                        <TableRow>
+                                            {/* <TableHead>Order #</TableHead> */}
+                                            <TableHead>Items</TableHead>
+                                            <TableHead>Date</TableHead>
+                                            <TableHead>Total</TableHead>
+                                            <TableHead>Status</TableHead>
                                         </TableRow>
-                                    ))}
-                                </TableBody>
-                            </Table>
-                        </div>
-                    </div>
-                    <div>
-                        <div className="flex items-center justify-between">
-                            <h2 className="text-2xl font-bold">Cart</h2>
-                            <Link to="user/cart" className="text-sm font-medium underline">
-                                View more
-                            </Link>
-                        </div>
-                        <div className="mt-4 border shadow-sm rounded-lg overflow-hidden">
-                            <Table>
-                                <TableHeader>
-                                    <TableRow>
-                                        <TableHead>Product</TableHead>
-                                        <TableHead>Quantity</TableHead>
-                                        <TableHead>Price</TableHead>
-                                        <TableHead>Total</TableHead>
-                                    </TableRow>
-                                </TableHeader>
-                                <TableBody>
-                                    {cart.map((item) => (
-                                        <TableRow key={item.id}>
-                                            <TableCell>{item.name}</TableCell>
-                                            <TableCell>{item.quantity}</TableCell>
-                                            <TableCell>${item.price.toFixed(2)}</TableCell>
-                                            <TableCell>${(item.price * item.quantity).toFixed(2)}</TableCell>
-                                        </TableRow>
-                                    ))}
-                                </TableBody>
-                            </Table>
+                                    </TableHeader>
+                                    <TableBody>
+                                        {orders.map((order) => (
+                                            <TableRow key={order._id}>
+                                                {/* <TableCell>#{order._id}</TableCell> */}
+                                                <TableCell>
+                                                    {order.products.map((item, index) => (
+                                                        <div key={index}>
+                                                            {item.qty} x {item.productName}
+                                                        </div>
+                                                    ))}
+                                                </TableCell>
+                                                <TableCell>{new Date(order.createdAt).toLocaleDateString()}</TableCell>
+                                                <TableCell>${order.totalAmount.toFixed(2)}</TableCell>
+                                                <TableCell>
+                                                    <Badge variant={
+                                                        order.status === "Delivered" ? "secondary"
+                                                            : order.status === "Shipped" ? "outline"
+                                                                : order.status === "Cancelled" ? "destructive"
+                                                                    : "default"
+                                                    }>
+                                                        {order.status}
+                                                    </Badge>
+                                                </TableCell>
+                                            </TableRow>
+                                        ))}
+                                    </TableBody>
+                                </Table>
+                            )}
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    )
+    );
 }
