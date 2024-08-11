@@ -12,7 +12,7 @@ Trendy Closet is an e-commerce application designed for selling t-shirts. Built 
 - **Backend**: Node.js, Express.js
 - **Database**: MongoDB
 - **Authentication**: JWT (JSON Web Tokens)
-- **Hosting**: Vercel (Frontend), Heroku or DigitalOcean (Backend)
+- **Hosting**: Vercel
 
 ## Features
 
