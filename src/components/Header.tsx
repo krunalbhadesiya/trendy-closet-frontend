@@ -169,26 +169,28 @@ const Header: React.FC = () => {
           {!isMobile && (
             isAuthenticated ? <UserDialogButton /> : <><Link to={"/auth/login"}><Button variant={'secondary'}>Login</Button></Link></>
           )}
-
           {isMobile && (
-            <Sheet>
-              <SheetTrigger><HambergerMenu size="32" variant="Bulk" /></SheetTrigger>
-              <SheetContent>
-                <SheetHeader>
-                  <Link to="/" className='flex flex-row items-center justify-center gap-4 '>
-                    <img src={logo} className=" w-14" alt="Logo" />
-                    Trendy Closet
-                  </Link>
-                </SheetHeader>
-                <div className="grid gap-4 py-4">
-                  <ul className="ml-4 md:flex flex-col">
-                    {navItems}
-                  </ul>
-                </div>
-              </SheetContent>
-              <SheetFooter>
-              </SheetFooter>
-            </Sheet>
+            <>
+              isAuthenticated ? <UserDialogButton /> : <><Link to={"/auth/login"}><Button variant={'secondary'}>Login</Button></Link></>
+              <Sheet>
+                <SheetTrigger><HambergerMenu size="32" variant="Bulk" /></SheetTrigger>
+                <SheetContent>
+                  <SheetHeader>
+                    <Link to="/" className='flex flex-row items-center justify-center gap-4 '>
+                      <img src={logo} className=" w-14" alt="Logo" />
+                      Trendy Closet
+                    </Link>
+                  </SheetHeader>
+                  <div className="grid gap-4 py-4">
+                    <ul className="ml-4 md:flex flex-col">
+                      {navItems}
+                    </ul>
+                  </div>
+                </SheetContent>
+                <SheetFooter>
+                </SheetFooter>
+              </Sheet>
+            </>
           )}
         </div>
       </div>
