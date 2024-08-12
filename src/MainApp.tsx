@@ -30,6 +30,7 @@ import { Helmet } from 'react-helmet';
 import Oreder from './pages/userDashboard/Order/Order';
 import HeaderSwitcher from './components/HeaderSwitcher';
 import Products from './pages/store/[id]';
+import Policies from './pages/Policies';
 
 function MainApp() {
   const { isAuthenticated } = useAuth();
@@ -69,6 +70,7 @@ function MainApp() {
         <Route path="/" element={<Home />} />
         <Route path="/contactus" element={<ContactUs />} />
         <Route path="/aboutus" element={<AboutUs />} />
+        <Route path="/policies" element={<Policies/>} />
         <Route path="*" element={<Navigate to="/" />} />
         <Route path="/auth" element={<Auth />} />
         <Route path="/auth/login" element={<Login />} />

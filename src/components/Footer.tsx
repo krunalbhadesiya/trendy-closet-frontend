@@ -1,57 +1,44 @@
-
+import { Link } from "react-router-dom"
+import Logo from "../assets/Logo-Black.png"
 function Footer() {
     return (
 
-        <footer className="bg-muted p-6 md:py-12 w-full">
-            <div className="container max-w-7xl grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-8 text-sm">
-                <div className="grid gap-1">
-                    <h3 className="font-semibold">Shop</h3>
-                    <a href="#">All Products</a>
-                    <a href="#">Home</a>
-                    <a href="#">Fashion</a>
-                    <a href="#">Electronics</a>
+        <footer className="bg-muted text-muted-foreground py-8 px-6 md:px-8">
+            <div className="mx-auto grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-20">
+                <div className="space-y-4">
+                    <div className="flex items-center space-x-2">
+                        <img src={Logo} className="w-14" alt="Logo" />
+                        <span className="text-lg font-bold text-primary">Trendy Closet</span>
+                    </div>
+                    <p className="text-sm leading-relaxed text-justify">
+                        Trendy Closet is your ultimate destination for fashionable and high-quality t-shirts. We specialize in providing a wide range of trendy designs, sizes, and colors to suit every style. Whether you're looking for casual wear or something unique, we've got you covered. Shop with us for premium quality, exceptional customer service, and the latest in t-shirt fashion.
+                    </p>
                 </div>
-                <div className="grid gap-1">
-                    <h3 className="font-semibold">Company</h3>
-                    <a href="#">About Us</a>
-                    <a href="#">Contact Us</a>
-                    <a href="#">Careers</a>
-                    <a href="#">Press</a>
+                <div></div>
+                <div className="flex flex-col gap-4">
+                    <h3 className="text-lg font-semibold text-primary">Quick Links</h3>
+                    <nav className="flex flex-col gap-2">
+                        <Link to={"/home"} className="text-sm hover:underline" >
+                            Home
+                        </Link>
+                        <Link to={"/store"} className="text-sm hover:underline" >
+                            Store
+                        </Link>
+                        <Link to={"/policies"} className="text-sm hover:underline" >
+                            Policies
+                        </Link>
+
+                        <Link to={"/aboutus"} className="text-sm hover:underline" >
+                            About
+                        </Link>
+                        <Link to={"/contactus"} className="text-sm hover:underline" >
+                            Contact
+                        </Link>
+                    </nav>
                 </div>
-                <div className="grid gap-1">
-                    <h3 className="font-semibold">Support</h3>
-                    <a href="#">FAQ</a>
-                    <a href="#">Returns</a>
-                    <a href="#">Shipping</a>
-                    <a href="#">Warranty</a>
-                </div>
-                <div className="grid gap-1">
-                    <h3 className="font-semibold">Legal</h3>
-                    <a href="#">Terms of Service</a>
-                    <a href="#">Privacy Policy</a>
-                    <a href="#">Cookie Policy</a>
-                </div>
-                <div className="grid gap-1">
-                    <h3 className="font-semibold">Join Now</h3>
-                    <p className="text-muted-foreground">Sign up for exclusive offers and updates.</p>
-                    <form className="flex gap-2">
-                        <input
-                            className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 max-w-lg flex-1"
-                            placeholder="Enter your email"
-                            type="email"
-                        />
-                        <button
-                            className="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-primary text-primary-foreground hover:bg-primary/90 h-10 px-4 py-2"
-                            type="submit"
-                        >
-                            Join
-                        </button>
-                    </form>
-                </div>
+
             </div>
-            <div className="container max-w-7xl mt-8 flex flex-col sm:flex-row items-center justify-between text-xs text-muted-foreground">
-                <p>© 2024 Acme Store. All rights reserved.</p>
-            </div>
+            <div className="mt-8 text-center text-sm border-t-2 pt-2">&copy; 2024 Tee Emporium. All rights reserved.</div>
         </footer>
     )
 }

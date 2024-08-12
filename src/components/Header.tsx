@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import Logo from '../assets/Logo-Black.png';
+import Logo from '../assets/Logo-White.png';
 import { Button } from './ui/button';
 import { HambergerMenu } from 'iconsax-react';
 import {
@@ -48,8 +48,8 @@ const Header: React.FC = () => {
   }, []);
 
   return (
-    <div className="w-full flex flex-wrap items-center bg-background justify-between p-2 md:p-4 border-b-2 sticky top-0 z-10">
-      <div className="w-full flex items-center justify-between">
+    <div className="w-full h-20 flex flex-wrap items-center bg-primary text-primary-foreground justify-between p-2  border-b-2 sticky top-0 z-10">
+      <div className="w-full flex items-center justify-between ">
         <Link to="/">
           <img src={Logo} className="w-10 md:w-14" alt="Logo" />
         </Link>

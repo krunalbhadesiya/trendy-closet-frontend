@@ -143,7 +143,7 @@ function Home() {
       </section>
 
       {/* Customer Reviews Section */}
-      <section className="py-12 md:py-16 lg:py-20 bg-muted">
+      <section className="py-12 md:py-16 lg:py-20 ">
         <div className="container">
           <h2 className="text-2xl md:text-3xl font-bold mb-6">What Our Customers Say</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -165,7 +165,7 @@ function Home() {
                     <Star
                       key={i}
                       fill="currentColor"
-                      className={i < 4 ? "text-muted-foreground" : "text-secondary"}
+                      className={i < 4 ? "text-primary" : "text-secondary"}
                     />
                   ))}
                 </div>
