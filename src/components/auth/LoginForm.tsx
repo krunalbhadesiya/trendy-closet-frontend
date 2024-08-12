@@ -8,7 +8,7 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 import axios from 'axios';
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 // Define schema for form validation
 const FormSchema = z.object({
@@ -115,6 +115,8 @@ function LoginForm() {
                 <Button type="submit" disabled={isLoading}>
                     {isLoading ? 'Logging in...' : 'Login'}
                 </Button>
+                <p className="text-center text-sm text-muted-foreground">Don't have an account? <Link to={"/auth/register"} className="text-primary">Register</Link></p>
+
             </form>
         </Form>
     );

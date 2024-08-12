@@ -1,7 +1,6 @@
 // src/Header.tsx
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import LogoWhite from '../assets/Logo-White.png';
 import LogoBlack from '../assets/Logo-Black.png';
 import { Button } from './ui/button';
 import {
@@ -59,12 +58,10 @@ const Header: React.FC = () => {
 
   // Determine which navigation items to display based on auth status and role
   let navItems: React.ReactNode[] = [];
-  let logo = LogoWhite;
-  let bgColor = 'bg-primary';
-  let textColor = 'text-primary-foreground';
+  let bgColor = 'bg-background';
+  let textColor = 'text-foreground';
 
   if (isAuthenticated && role === 'admin') {
-    logo = LogoBlack;
     bgColor = 'bg-background';
     textColor = 'text-foreground';
     navItems = [
@@ -106,7 +103,6 @@ const Header: React.FC = () => {
       </NavItem>,
     ];
   } else if (isAuthenticated) {
-    logo = LogoBlack;
     bgColor = 'bg-background';
     textColor = 'text-foreground';
     navItems = [
@@ -160,24 +156,28 @@ const Header: React.FC = () => {
     <div className={`w-full h-20 flex flex-wrap items-center ${bgColor} ${textColor} justify-between p-2 border-b-2 sticky top-0 z-10`}>
       <div className="w-full flex items-center justify-between">
         <Link to="/">
-          <img src={logo} className="w-10 md:w-14" alt="Logo" />
+          <img src={LogoBlack} className="w-10 md:w-14" alt="Logo" />
         </Link>
         <ul className={`ml-4 space-x-4 hidden md:flex`}>
           {navItems}
         </ul>
         <div className='flex items-center gap-2'>
           {!isMobile && (
-            isAuthenticated ? <UserDialogButton /> : <><Link to={"/auth/login"}><Button variant={'secondary'}>Login</Button></Link></>
+            isAuthenticated ? <UserDialogButton /> : <><Link to={"/auth/login"}><Button variant={'outline'}>Login</Button></Link></>
           )}
           {isMobile && (
             <>
-              isAuthenticated ? <UserDialogButton /> : <><Link to={"/auth/login"}><Button variant={'secondary'}>Login</Button></Link></>
+              {isAuthenticated ? <UserDialogButton /> : <Link to={"/auth/login"}><Button variant={'outline'}>Login</Button></Link>}
               <Sheet>
-                <SheetTrigger><HambergerMenu size="32" variant="Bulk" /></SheetTrigger>
+                <SheetTrigger>
+                  <Button variant={'outline'} className='p-2'>
+                    <HambergerMenu className='text-primary'/>
+                  </Button>
+                </SheetTrigger>
                 <SheetContent>
                   <SheetHeader>
                     <Link to="/" className='flex flex-row items-center justify-center gap-4 '>
-                      <img src={logo} className=" w-14" alt="Logo" />
+                      <img src={LogoBlack} className=" w-14" alt="Logo" />
                       Trendy Closet
                     </Link>
                   </SheetHeader>

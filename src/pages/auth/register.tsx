@@ -1,16 +1,16 @@
 import { RegisterForm } from '@/components/auth/RegisterFrom';
 import React from 'react';
+import Illustrator from "../../assets/3293465.jpg"
+
 
 const Register: React.FC = () => {
   return (
     <div className="grid w-full min-h-screen lg:grid-cols-2">
-      <div className="hidden bg-muted lg:block">
+      <div className="flex items-center justify-center w-full">
         <img
-          src="/authpage.jpg"
+          src={Illustrator}
           alt="Login Image"
-          width="1600"
-          height="900"
-          className="h-full w-full object-cover"
+          className="w-3/4 object-cover"
         />
       </div>
       <div className="flex items-center justify-center p-6 lg:p-10">

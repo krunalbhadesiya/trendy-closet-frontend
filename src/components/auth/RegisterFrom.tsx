@@ -15,6 +15,7 @@ import {
   FormMessage,
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
+import { Link } from "react-router-dom"
 
 // Define the validation schema with Zod
 const registerSchema = z.object({
@@ -120,9 +121,7 @@ export function RegisterForm() {
         <Button type="submit" disabled={isLoading}>
           {isLoading ? 'Registering...' : 'Register'}
         </Button>
-        <div className="mt-4">
-          <a href="/auth/login">Already have an account? Login</a>
-        </div>
+        <p className="text-center text-sm text-muted-foreground">Already have an account? <Link to={"/auth/login"} className="text-primary">Login</Link></p>
       </form>
     </Form>
   )
