@@ -1,34 +1,44 @@
+// src/Header.tsx
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import Logo from '../assets/Logo-White.png';
+import LogoWhite from '../assets/Logo-White.png';
+import LogoBlack from '../assets/Logo-Black.png';
 import { Button } from './ui/button';
-import { HambergerMenu } from 'iconsax-react';
 import {
-  Dialog,
-  DialogClose,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog"
+  Category,
+  Shop,
+  Box,
+  Book,
+  Sms,
+  HambergerMenu,
+  Home,
+  Call,
+  Building
+} from 'iconsax-react';
+import {
+  Sheet,
+  SheetContent,
+  SheetFooter,
+  SheetHeader,
+  SheetTrigger,
+} from "@/components/ui/sheet"
+
 import UserDialogButton from './UserDialogButton';
-import UserDialogButtonMobile from './UserDialogButtonMobile';
+import { useAuth } from '../hooks/useAuth';
 
 interface NavItemProps {
   to: string;
   currentPath: string;
   children: React.ReactNode;
-  onClick?: () => void; // Add onClick prop
+  onClick?: () => void;
+  isActivePath?: boolean;
 }
 
 const Header: React.FC = () => {
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const { isAuthenticated, role } = useAuth();
+  const [, setIsMenuOpen] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
   const location = useLocation();
-
-
 
   const closeMenu = () => {
     setIsMenuOpen(false);
@@ -47,66 +57,142 @@ const Header: React.FC = () => {
     };
   }, []);
 
+  // Determine which navigation items to display based on auth status and role
+  let navItems: React.ReactNode[] = [];
+  let logo = LogoWhite;
+  let bgColor = 'bg-primary';
+  let textColor = 'text-primary-foreground';
+
+  if (isAuthenticated && role === 'admin') {
+    logo = LogoBlack;
+    bgColor = 'bg-background';
+    textColor = 'text-foreground';
+    navItems = [
+      <NavItem to="/" currentPath={location.pathname} onClick={closeMenu} key="home">
+        <Home variant="Bulk" />
+        Home
+      </NavItem>,
+      <NavItem to="/store" currentPath={location.pathname} onClick={closeMenu} key="store">
+        <Shop variant="Bulk" />
+        Store
+      </NavItem>,
+      <NavItem to="/aboutus" currentPath={location.pathname} onClick={closeMenu} key="aboutus">
+        <Building variant="Bulk" />
+        About Us
+      </NavItem>,
+      <NavItem to="/contactus" currentPath={location.pathname} onClick={closeMenu} key="contactus">
+        <Call variant="Bulk" />
+        Contact Us
+      </NavItem>,
+      <NavItem to="/admin/dashboard" currentPath={location.pathname} onClick={closeMenu} key="dashboard">
+        <Category variant="Bulk" />
+        Dashboard
+      </NavItem>,
+      <NavItem to="/admin/dashboard/product" currentPath={location.pathname} onClick={closeMenu} key="product">
+        <Shop variant='Bulk' />
+        Product
+      </NavItem>,
+      <NavItem to="/admin/dashboard/order" currentPath={location.pathname} onClick={closeMenu} key="order">
+        <Box variant='Bulk' />
+        Order
+      </NavItem>,
+      <NavItem to="/admin/dashboard/reviews" currentPath={location.pathname} onClick={closeMenu} key="reviews">
+        <Book variant='Bulk' />
+        Reviews
+      </NavItem>,
+      <NavItem to="/admin/dashboard/contactformdata" currentPath={location.pathname} onClick={closeMenu} key="contact">
+        <Sms variant='Bulk' />
+        Contact Data
+      </NavItem>,
+    ];
+  } else if (isAuthenticated) {
+    logo = LogoBlack;
+    bgColor = 'bg-background';
+    textColor = 'text-foreground';
+    navItems = [
+      <NavItem to="/" currentPath={location.pathname} onClick={closeMenu} key="home">
+        <Home variant="Bulk" />
+        Home
+      </NavItem>,
+      <NavItem to="/store" currentPath={location.pathname} onClick={closeMenu} key="store">
+        <Shop variant="Bulk" />
+        Store
+      </NavItem>,
+      <NavItem to="/aboutus" currentPath={location.pathname} onClick={closeMenu} key="aboutus">
+        <Building variant="Bulk" />
+        About Us
+      </NavItem>,
+      <NavItem to="/contactus" currentPath={location.pathname} onClick={closeMenu} key="contactus">
+        <Call variant="Bulk" />
+        Contact Us
+      </NavItem>,
+      <NavItem to="/user/dashboard" currentPath={location.pathname} onClick={closeMenu} key="dashboard">
+        <Category variant="Bulk" />
+        Dashboard
+      </NavItem>,
+      <NavItem to="/user/dashboard/order" currentPath={location.pathname} onClick={closeMenu} key="order">
+        <Box variant='Bulk' />
+        Order
+      </NavItem>,
+      <NavItem to="/user/dashboard/cart" currentPath={location.pathname} onClick={closeMenu} key="cart">
+        <Book variant='Bulk' />
+        Cart
+      </NavItem>,
+    ];
+  } else {
+    navItems = [
+      <NavItem to="/" currentPath={location.pathname} onClick={closeMenu} key="home">
+        Home
+      </NavItem>,
+      <NavItem to="/store" currentPath={location.pathname} onClick={closeMenu} key="store">
+        Store
+      </NavItem>,
+      <NavItem to="/aboutus" currentPath={location.pathname} onClick={closeMenu} key="aboutus">
+        About Us
+      </NavItem>,
+      <NavItem to="/contactus" currentPath={location.pathname} onClick={closeMenu} key="contactus">
+        Contact Us
+      </NavItem>,
+    ];
+  }
+
   return (
-    <div className="w-full h-20 flex flex-wrap items-center bg-primary text-primary-foreground justify-between p-2  border-b-2 sticky top-0 z-10">
-      <div className="w-full flex items-center justify-between ">
+    <div className={`w-full h-20 flex flex-wrap items-center ${bgColor} ${textColor} justify-between p-2 border-b-2 sticky top-0 z-10`}>
+      <div className="w-full flex items-center justify-between">
         <Link to="/">
-          <img src={Logo} className="w-10 md:w-14" alt="Logo" />
+          <img src={logo} className="w-10 md:w-14" alt="Logo" />
         </Link>
         <ul className={`ml-4 space-x-4 hidden md:flex`}>
-          <NavItem to="/" currentPath={location.pathname}>Home</NavItem>
-          <NavItem to="/store" currentPath={location.pathname}>Store</NavItem>
-          <NavItem to="/aboutus" currentPath={location.pathname}>About Us</NavItem>
-          <NavItem to="/contactus" currentPath={location.pathname}>Contact Us</NavItem>
+          {navItems}
         </ul>
-        <div className='flex items-center  gap-2'>
+        <div className='flex items-center gap-2'>
           {!isMobile && (
-            <UserDialogButton />
+            isAuthenticated ? <UserDialogButton /> : <><Link to={"/auth/login"}><Button variant={'secondary'}>Login</Button></Link></>
           )}
-          {/* <Link to="/login">
-            <Button variant={"outline"}>Login</Button>
-          </Link> */}
-          {/* <ModeToggle /> */}
+
           {isMobile && (
-            <Dialog open={isMenuOpen} onOpenChange={setIsMenuOpen}>
-              <DialogTrigger>
-                <HambergerMenu size="32" variant="Bulk" />
-              </DialogTrigger>
-              <DialogContent className='w-full h-screen'>
-                <DialogHeader>
-                  <DialogTitle>
-                    <Link to="/" className='flex flex-row items-center justify-center gap-4 '>
-                      <img src={Logo} className=" w-14" alt="Logo" />
-                      Trendy Closet
-                    </Link>
-                  </DialogTitle>
-                  <DialogDescription>
-                    <div className="grid gap-4 py-4">
-                      <ul className="ml-4  md:flex">
-                        <NavItem to="/" currentPath={location.pathname} onClick={closeMenu}>Home</NavItem>
-                        <NavItem to="/store" currentPath={location.pathname} onClick={closeMenu}>Store</NavItem>
-                        <NavItem to="/aboutus" currentPath={location.pathname} onClick={closeMenu}>About Us</NavItem>
-                        <NavItem to="/contactus" currentPath={location.pathname} onClick={closeMenu}>Contact Us</NavItem>
-                      </ul>
-                    </div>
-                  </DialogDescription>
-                </DialogHeader>
-                <DialogFooter>
-                  <div className='w-full flex flex-col gap-2'>
-                    <UserDialogButtonMobile />
-                    <DialogClose asChild className='w-full'>
-                      <Button type="button" variant="outline">
-                        Close
-                      </Button>
-                    </DialogClose>
-                  </div>
-                </DialogFooter>
-              </DialogContent>
-            </Dialog>
+            <Sheet>
+              <SheetTrigger><HambergerMenu size="32" variant="Bulk" /></SheetTrigger>
+              <SheetContent>
+                <SheetHeader>
+                  <Link to="/" className='flex flex-row items-center justify-center gap-4 '>
+                    <img src={logo} className=" w-14" alt="Logo" />
+                    Trendy Closet
+                  </Link>
+                </SheetHeader>
+                <div className="grid gap-4 py-4">
+                  <ul className="ml-4 md:flex flex-col">
+                    {navItems}
+                  </ul>
+                </div>
+              </SheetContent>
+              <SheetFooter>
+              </SheetFooter>
+            </Sheet>
           )}
         </div>
       </div>
-    </div>
+    </div >
   );
 }
 
@@ -114,13 +200,17 @@ const Header: React.FC = () => {
 const NavItem: React.FC<NavItemProps> = ({ to, currentPath, children, onClick }) => {
   const isActive = to === currentPath;
   return (
-    <li>
-      <Button variant={'ghost'} className='w-full' onClick={onClick}>
-        <Link to={to} className={isActive ? 'font-bold' : ''}>{children}</Link>
-      </Button>
+    <li className='my-2'>
+      <Link to={to} onClick={onClick}>
+        <Button
+          variant={'ghost'}
+          className={`flex gap-2 w-full justify-start ${isActive ? 'border-2 border-border font-bold' : ''}`}
+        >
+          {children}
+        </Button>
+      </Link>
     </li>
   );
 }
-
 
 export default Header;

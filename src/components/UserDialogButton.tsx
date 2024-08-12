@@ -28,41 +28,36 @@ const UserDialogButton = () => {
 
     return (
         <div>
-            <DropdownMenu>
-                <DropdownMenuTrigger>
-                    {/* <img src={profile ? profile : "./user-avtar.png"} className="w-10 h-10 md:w-14 md:h-14 border-2 rounded-full" alt="User Avatar" /> */}
-                    {/* <img src="./user-avtar.png" className="w-10 h-10 md:w-14 md:h-14 border-2 rounded-full" alt="User Avatar" /> */}
-                    <div className="w-10 h-10 md:w-14 md:h-14 border-2 rounded-full flex items-center justify-center">
-                    <User variant="Bulk" size={28}/>
-                    </div>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent>
-                    {isAuthenticated ? (
-                        <>
+            {isAuthenticated ? (
+                <>
+                    <DropdownMenu>
+                        <DropdownMenuTrigger>
+                            {/* <img src={profile ? profile : "./user-avtar.png"} className="w-10 h-10 md:w-14 md:h-14 border-2 rounded-full" alt="User Avatar" /> */}
+                            {/* <img src="./user-avtar.png" className="w-10 h-10 md:w-14 md:h-14 border-2 rounded-full" alt="User Avatar" /> */}
+                            <div className="w-10 h-10 md:w-14 md:h-14 border-2 rounded-full flex items-center justify-center">
+                                <User variant="Bulk" size={28} />
+                            </div>
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent>
                             <DropdownMenuLabel>{name ? name : "Krunal Admin"}</DropdownMenuLabel>
                             <DropdownMenuSeparator />
-                            <DropdownMenuItem>Profile</DropdownMenuItem>
-                            <DropdownMenuItem>Setting</DropdownMenuItem>
+                            <DropdownMenuItem>
+                                <Link to={""}>
+                                    Profile
+                                </Link>
+                            </DropdownMenuItem>
+                            <DropdownMenuItem>
+                                <Link to={""}>
+                                    Setting
+                                </Link>
+                            </DropdownMenuItem>
                             <DropdownMenuItem onClick={logout}>Logout</DropdownMenuItem>
-                        </>
-                    ) : (
-                        <>
-                            <DropdownMenuItem>
-                                <Link to="/auth/login">
-                                    Login
-                                </Link>
-                            </DropdownMenuItem>
-                            <DropdownMenuSeparator />
-                            <DropdownMenuItem>
-                                <Link to="/auth/register">
-                                    Register
-                                </Link>
-                            </DropdownMenuItem>
-
-                        </>
-                    )}
-                </DropdownMenuContent>
-            </DropdownMenu>
+                        </DropdownMenuContent>
+                    </DropdownMenu>
+                </>
+            ) : (
+                <></>
+            )}
         </div >
     );
 }

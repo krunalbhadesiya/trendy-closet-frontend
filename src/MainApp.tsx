@@ -28,9 +28,10 @@ import Cart from './pages/userDashboard/Cart/Cart';
 import AddOrder from './pages/userDashboard/Order/AddOrder/AddOrder';
 import { Helmet } from 'react-helmet';
 import Oreder from './pages/userDashboard/Order/Order';
-import HeaderSwitcher from './components/HeaderSwitcher';
+// import HeaderSwitcher from './components/HeaderSwitcher';
 import Products from './pages/store/[id]';
 import Policies from './pages/Policies';
+import Header from './components/Header';
 
 function MainApp() {
   const { isAuthenticated } = useAuth();
@@ -64,8 +65,7 @@ function MainApp() {
         <meta property="og:type" content="website" />
       </Helmet>
 
-      {/* {isAuthenticated ? <AuthHeader /> : <Header />} */}
-      <HeaderSwitcher />
+      <Header />
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/contactus" element={<ContactUs />} />
