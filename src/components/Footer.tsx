@@ -38,7 +38,7 @@ function Footer() {
                 </div>
 
             </div>
-            <div className="mt-8 text-center text-sm border-t-2 pt-2">&copy; 2024 Tee Emporium. All rights reserved.</div>
+            <div className="mt-8 text-center text-sm border-t-2 pt-2">&copy; 2024 Trendy Closet. All rights reserved.</div>
         </footer>
     )
 }
