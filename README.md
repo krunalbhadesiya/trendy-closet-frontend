@@ -4,7 +4,7 @@
 
 Trendy Closet is an e-commerce application designed for selling t-shirts. Built with the MERN stack (MongoDB, Express, React, Node.js), this project showcases a full-stack web application featuring user authentication, product management, and order handling.
 
-![Trendy Closet Screenshot]()
+![Trendy Closet Screenshot](https://trendy-closet.vercel.app/screenshot.png)
 
 ## Technology Stack
 
