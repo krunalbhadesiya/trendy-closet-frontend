@@ -32,6 +32,7 @@ import Oreder from './pages/userDashboard/Order/Order';
 import Products from './pages/store/[id]';
 import Policies from './pages/Policies';
 import Header from './components/Header';
+import OrderData from './pages/adminDashboard/Order/OrderData/[id]';
 
 function MainApp() {
   const { isAuthenticated } = useAuth();
@@ -70,7 +71,7 @@ function MainApp() {
         <Route path="/" element={<Home />} />
         <Route path="/contactus" element={<ContactUs />} />
         <Route path="/aboutus" element={<AboutUs />} />
-        <Route path="/policies" element={<Policies/>} />
+        <Route path="/policies" element={<Policies />} />
         <Route path="*" element={<Navigate to="/" />} />
         <Route path="/auth" element={<Auth />} />
         <Route path="/auth/login" element={<Login />} />
@@ -102,6 +103,14 @@ function MainApp() {
           element={
             <PrivateRoute adminRoute={true}>
               <AdminOrder />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="admin/dashboard/order/:id"
+          element={
+            <PrivateRoute adminRoute={true}>
+              <OrderData />
             </PrivateRoute>
           }
         />
