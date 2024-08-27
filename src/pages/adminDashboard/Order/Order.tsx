@@ -1,11 +1,10 @@
-"use client";
-
 import { useState, useMemo, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Table, TableHeader, TableRow, TableHead, TableBody, TableCell } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
-import { ArrowSwapVertical } from "iconsax-react";
+import { ArrowSwapVertical, Edit, Eye } from "iconsax-react";
 import axios from "axios";
+import { Link } from "react-router-dom";
 
 interface Product {
     productId: string;
@@ -134,6 +133,11 @@ function AdminOrder() {
                                     {sortBy === "totalAmount" && <ArrowSwapVertical className="h-4 w-4" />}
                                 </Button>
                             </TableHead>
+                            <TableHead>
+                                <Button variant={"outline"} size="sm" className="flex items-center space-x-2">
+                                    <span>Action</span>
+                                </Button>
+                            </TableHead>
                         </TableRow>
                     </TableHeader>
                     <TableBody>
@@ -158,6 +162,18 @@ function AdminOrder() {
                                     </Badge>
                                 </TableCell>
                                 <TableCell>${order.totalAmount.toFixed(2)}</TableCell>
+                                <TableCell className="flex flex-row gap-2">
+                                    <Link to={`../admin/dashboard/order/${order._id}`}>
+                                        <Button variant={"outline"} size="sm" className="p-1 flex items-center space-x-2">
+                                            <Eye size={32} />
+                                        </Button>
+                                    </Link>
+                                    <Link to={`../admin/dashboard/order/edit/${order._id}`}>
+                                        <Button variant={"outline"} size="sm" className="p-1 flex items-center space-x-2">
+                                            <Edit size={32} />
+                                        </Button>
+                                    </Link>
+                                </TableCell>
                             </TableRow>
                         ))}
                     </TableBody>
