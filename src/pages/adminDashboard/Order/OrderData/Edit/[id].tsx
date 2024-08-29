@@ -177,7 +177,7 @@ export default function OrderDataEdit() {
                                         <div className="grid gap-2">
                                             <div className="text-muted-foreground">
                                                 Payment Status:
-                                                <RadioGroup defaultValue={orders.paymentStatus} onChange={handleInputChange}>
+                                                <RadioGroup name="paymentStatus" defaultValue={orders.paymentStatus} onChange={handleInputChange}>
                                                     <span>
                                                         <RadioGroupItem value="Paid" />
                                                         <Badge
@@ -202,7 +202,7 @@ export default function OrderDataEdit() {
                                         <div className="grid grid-cols-2 gap-2">
                                             <div className="text-muted-foreground">
                                                 Order Status:
-                                                <RadioGroup defaultValue={orders.status} onChange={handleInputChange}>
+                                                <RadioGroup name="status" defaultValue={orders.status} onChange={handleInputChange}>
                                                     <span>
                                                         <RadioGroupItem value="Delivered" />
                                                         <Badge
