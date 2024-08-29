@@ -225,6 +225,15 @@ export default function OrderDataEdit() {
                                                         </Badge>
                                                     </span>
                                                     <span>
+                                                        <RadioGroupItem value="Shipped" />
+                                                        <Badge
+                                                            className="ml-2 text-white bg-blue-500 "
+                                                            variant={"outline"}
+                                                        >
+                                                            Shipped
+                                                        </Badge>
+                                                    </span>
+                                                    <span>
                                                         <RadioGroupItem value="Pending" />
                                                         <Badge
                                                             className="ml-2 text-white bg-red-600"

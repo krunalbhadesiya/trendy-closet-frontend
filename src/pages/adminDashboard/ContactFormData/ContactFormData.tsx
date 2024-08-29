@@ -1,70 +1,68 @@
 "use client";
 
-import { useState, useMemo, ChangeEvent } from "react";
+import { useState, useEffect, useMemo, ChangeEvent } from "react";
+import axios from "axios";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Table, TableHeader, TableRow, TableHead, TableBody, TableCell } from "@/components/ui/table";
+import { toast } from "@/components/ui/use-toast";
+import { Badge } from "@/components/ui/badge";
+import {
+    Dialog,
+    DialogContent,
+    DialogHeader,
+    DialogTitle,
+    DialogTrigger,
+} from "@/components/ui/dialog";
+import UpdateContactFormData from "./UpdateConactFormData/UpdateConactFormData";
 
 interface Contact {
-    id: number;
+    _id: string;
     name: string;
     email: string;
     phone: string;
     notes: string;
     label: string;
+    createdAt: string;
 }
 
-
-
 function AdminContactFormData() {
-    // const [contacts, setContacts] = useState<Contact[]>([
-    const [contacts] = useState<Contact[]>([
-        {
-            id: 1,
-            name: "John Doe",
-            email: "john@example.com",
-            phone: "555-1234",
-            notes: "Placed order for 10 t-shirts",
-            label: "Progress",
-        },
-        {
-            id: 2,
-            name: "Jane Smith",
-            email: "jane@example.com",
-            phone: "555-5678",
-            notes: "Requested custom design",
-            label: "Complete",
-        },
-        {
-            id: 3,
-            name: "Bob Johnson",
-            email: "bob@example.com",
-            phone: "555-9012",
-            notes: "Frequent customer",
-            label: "Cancel",
-
-        },
-        {
-            id: 4,
-            name: "Sarah Lee",
-            email: "sarah@example.com",
-            phone: "555-3456",
-            notes: "Placed large order for company",
-            label: "Progress",
-        },
-        {
-            id: 5,
-            name: "Tom Wilson",
-            email: "tom@example.com",
-            phone: "555-7890",
-            notes: "Interested in wholesale pricing",
-            label: "Complete",
-        },
-    ]);
-
+    const [contacts, setContacts] = useState<Contact[]>([]);
     const [searchTerm, setSearchTerm] = useState<string>("");
     const [sortColumn, setSortColumn] = useState<keyof Contact>("name");
     const [sortDirection, setSortDirection] = useState<"asc" | "desc">("asc");
+    const [isLoading, setIsLoading] = useState<boolean>(false);
+    const [selectedContact, setSelectedContact] = useState<Contact | null>(null);
+
+    useEffect(() => {
+        const fetchContacts = async () => {
+            setIsLoading(true);
+            const token = localStorage.getItem("token");
+
+            try {
+                const response = await axios.get(
+                    `${import.meta.env.VITE_API_BASE_URL}/contacts`,
+                    {
+                        headers: {
+                            Authorization: `${token}`,
+                            "Content-Type": "application/json",
+                        },
+                    }
+                );
+                setContacts(response.data.contacts); // Assuming your API returns data in { contacts: [] } structure
+            } catch (error) {
+                console.error("Error fetching contacts", error);
+                toast({
+                    title: "Error",
+                    description: "There was an error fetching contacts. Please try again.",
+                });
+            } finally {
+                setIsLoading(false);
+            }
+        };
+
+        fetchContacts();
+    }, []);
 
     const filteredContacts = useMemo(() => {
         return contacts
@@ -73,7 +71,7 @@ function AdminContactFormData() {
                     contact.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
                     contact.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
                     contact.phone.includes(searchTerm) ||
-                    contact.notes.toLowerCase().includes(searchTerm.toLowerCase()),
+                    contact.notes.toLowerCase().includes(searchTerm.toLowerCase())
             )
             .sort((a, b) => {
                 if (a[sortColumn] < b[sortColumn]) return sortDirection === "asc" ? -1 : 1;
@@ -95,65 +93,121 @@ function AdminContactFormData() {
         setSearchTerm(e.target.value);
     };
 
-    const handleCreateContact = () => { };
-
     const handleEditContact = (contact: Contact) => {
-        console.log(contact)
+        setSelectedContact(contact);
     };
 
-    const handleDeleteContact = (contactId: number) => {
-        console.log(contactId)
+    const handleDeleteContact = async (contactId: string) => {
+        const token = localStorage.getItem("token");
+
+        try {
+            await axios.delete(`${import.meta.env.VITE_API_BASE_URL}/contacts/${contactId}`, {
+                headers: {
+                    Authorization: `${token}`,
+                    "Content-Type": "application/json",
+                },
+            });
+            setContacts((prevContacts) => prevContacts.filter((contact) => contact._id !== contactId));
+            toast({
+                title: "Success",
+                description: "Contact deleted successfully.",
+            });
+        } catch (error) {
+            console.error("Error deleting contact", error);
+            toast({
+                title: "Error",
+                description: "There was an error deleting the contact. Please try again.",
+            });
+        }
     };
 
     return (
         <div className="mx-auto px-4 py-8">
-            <div className="flex items-center justify-between mb-6">
+            <div className="flex items-center justify-between mb-6 pb-2 border-b-2">
                 <h1 className="text-2xl font-bold">Contact Management</h1>
-                <Button onClick={handleCreateContact}>Create Contact</Button>
-            </div>
-            <div className="mb-6">
-                <Input placeholder="Search contacts..." value={searchTerm} onChange={handleSearch} className="w-full" />
+                <Input
+                    placeholder="Search contacts..."
+                    value={searchTerm}
+                    onChange={handleSearch}
+                    className="w-fit"
+                />
             </div>
             <div className="overflow-x-auto">
-                <Table>
-                    <TableHeader>
-                        <TableRow>
-                            <TableHead onClick={() => handleSort("name")}>
-                                Name {sortColumn === "name" && <span className="ml-2">{sortDirection === "asc" ? "\u25B2" : "\u25BC"}</span>}
-                            </TableHead>
-                            <TableHead onClick={() => handleSort("email")}>
-                                Email {sortColumn === "email" && <span className="ml-2">{sortDirection === "asc" ? "\u25B2" : "\u25BC"}</span>}
-                            </TableHead>
-                            <TableHead onClick={() => handleSort("phone")}>
-                                Phone {sortColumn === "phone" && <span className="ml-2">{sortDirection === "asc" ? "\u25B2" : "\u25BC"}</span>}
-                            </TableHead>
-                            <TableHead>Notes</TableHead>
-                            <TableHead>Label</TableHead>
-                            <TableHead>Actions</TableHead>
-                        </TableRow>
-                    </TableHeader>
-                    <TableBody>
-                        {filteredContacts.map((contact) => (
-                            <TableRow key={contact.id}>
-                                <TableCell>{contact.name}</TableCell>
-                                <TableCell>{contact.email}</TableCell>
-                                <TableCell>{contact.phone}</TableCell>
-                                <TableCell>{contact.notes}</TableCell>
-                                <TableCell>
-                                    <div className="inline-block rounded-lg bg-muted px-3 py-1 text-sm">{contact.label}</div>
-                                </TableCell>
-                                <TableCell>
-                                    <div className="flex gap-2">
-                                        <Button variant="outline" size="sm" onClick={() => handleEditContact(contact)}>Edit</Button>
-                                        <Button variant="outline" size="sm" onClick={() => handleDeleteContact(contact.id)}>Delete</Button>
-                                    </div>
-                                </TableCell>
+                {isLoading ? (
+                    <p>Loading contacts...</p>
+                ) : (
+                    <Table>
+                        <TableHeader>
+                            <TableRow>
+                                <TableHead onClick={() => handleSort("name")}>
+                                    Name {sortColumn === "name" && <span className="ml-2">{sortDirection === "asc" ? "\u25B2" : "\u25BC"}</span>}
+                                </TableHead>
+                                <TableHead onClick={() => handleSort("email")}>
+                                    Email {sortColumn === "email" && <span className="ml-2">{sortDirection === "asc" ? "\u25B2" : "\u25BC"}</span>}
+                                </TableHead>
+                                <TableHead onClick={() => handleSort("phone")}>
+                                    Phone {sortColumn === "phone" && <span className="ml-2">{sortDirection === "asc" ? "\u25B2" : "\u25BC"}</span>}
+                                </TableHead>
+                                <TableHead>Notes</TableHead>
+                                <TableHead>Label</TableHead>
+                                <TableHead>Actions</TableHead>
                             </TableRow>
-                        ))}
-                    </TableBody>
-                </Table>
+                        </TableHeader>
+                        <TableBody>
+                            {filteredContacts.map((contact) => (
+                                <TableRow key={contact._id}>
+                                    <TableCell>{contact.name}</TableCell>
+                                    <TableCell>{contact.email}</TableCell>
+                                    <TableCell>{contact.phone}</TableCell>
+                                    <TableCell>{contact.notes}</TableCell>
+                                    <TableCell>
+                                        <Badge
+                                            variant={"outline"}
+                                            className={
+                                                contact.label === "Cancel" ? "text-white bg-gray-600" : contact.label === "Complete" ? "bg-green-500 text-white" : "bg-red-500 text-white"
+                                            }
+                                        >
+                                            {contact.label}
+                                        </Badge>
+                                    </TableCell>
+                                    <TableCell>
+                                        <div className="flex gap-2">
+                                            <Dialog onOpenChange={() => handleEditContact(contact)}>
+                                                <DialogTrigger>
+                                                    <Button
+                                                        variant="outline"
+                                                        size="sm"
+                                                    >
+                                                        Edit
+                                                    </Button>
+                                                </DialogTrigger>
+                                                <DialogContent>
+                                                    <DialogHeader>
+                                                        <DialogTitle>Update Contact Form Data</DialogTitle>
+                                                    </DialogHeader>
+                                                    {selectedContact && (
+                                                        <UpdateContactFormData contact={selectedContact} />
+                                                    )}
+                                                </DialogContent>
+
+                                            </Dialog>
+                                            <Button
+                                                variant="outline"
+                                                size="sm"
+                                                onClick={() => handleDeleteContact(contact._id)}
+                                            >
+                                                Delete
+                                            </Button>
+                                        </div>
+                                    </TableCell>
+                                </TableRow>
+                            ))}
+                        </TableBody>
+                    </Table>
+                )}
             </div>
         </div>
     );
 }
+
 export default AdminContactFormData;
