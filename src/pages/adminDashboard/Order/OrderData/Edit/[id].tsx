@@ -126,6 +126,18 @@ export default function OrderDataEdit() {
         );
     };
 
+    // Handle radio button change
+    const handleRadioChange = (name: string, value: string) => {
+        setOrders((prevOrder) =>
+            prevOrder
+                ? {
+                    ...prevOrder,
+                    [name]: value,
+                }
+                : null
+        );
+    };
+
     return (
         <div>
             {isLoading ? (
@@ -142,7 +154,7 @@ export default function OrderDataEdit() {
                                 <CardContent>
                                     <div className="grid grid-cols-2 gap-4">
                                         <div className="grid  gap-2">
-                                            <div className="text-muted-foreground">Order ID: <Input className="text-primary" value={orders._id}  onChange={handleInputChange} readOnly/></div>
+                                            <div className="text-muted-foreground">Order ID: <Input className="text-primary" value={orders._id} onChange={handleInputChange} readOnly /></div>
                                         </div>
                                         <div className="grid gap-2">
                                             <div className="text-muted-foreground">Customer Name: <Input className="text-primary" name="customerName" value={orders.customerName} onChange={handleInputChange} /></div>
@@ -162,7 +174,7 @@ export default function OrderDataEdit() {
                                         <div className="grid gap-2">
                                             <div className="text-muted-foreground">
                                                 City:
-                                                <Input className="text-primary" name="city"  value={orders.city} onChange={handleInputChange} />
+                                                <Input className="text-primary" name="city" value={orders.city} onChange={handleInputChange} />
                                             </div>
                                         </div>
                                         <div className="grid gap-2">
@@ -177,7 +189,7 @@ export default function OrderDataEdit() {
                                         <div className="grid gap-2">
                                             <div className="text-muted-foreground">
                                                 Payment Status:
-                                                <RadioGroup name="paymentStatus" defaultValue={orders.paymentStatus} onChange={handleInputChange}>
+                                                <RadioGroup name="paymentStatus" defaultValue={orders.paymentStatus} onValueChange={(value) => handleRadioChange("paymentStatus", value)}>
                                                     <span>
                                                         <RadioGroupItem value="Paid" />
                                                         <Badge
@@ -202,7 +214,7 @@ export default function OrderDataEdit() {
                                         <div className="grid grid-cols-2 gap-2">
                                             <div className="text-muted-foreground">
                                                 Order Status:
-                                                <RadioGroup name="status" defaultValue={orders.status} onChange={handleInputChange}>
+                                                <RadioGroup name="status" defaultValue={orders.status} onValueChange={(value) => handleRadioChange("status", value)}>
                                                     <span>
                                                         <RadioGroupItem value="Delivered" />
                                                         <Badge
