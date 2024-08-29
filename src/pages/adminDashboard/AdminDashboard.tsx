@@ -79,7 +79,7 @@ export default function AdminDashboard() {
                     </div>
                   </TableCell>
                   <TableCell>1,234</TableCell>
-                  <TableCell>$12,340</TableCell>
+                  <TableCell>₹12,340</TableCell>
                 </TableRow>
                 <TableRow>
                   <TableCell>
@@ -98,7 +98,7 @@ export default function AdminDashboard() {
                     </div>
                   </TableCell>
                   <TableCell>987</TableCell>
-                  <TableCell>$9,870</TableCell>
+                  <TableCell>₹9,870</TableCell>
                 </TableRow>
                 <TableRow>
                   <TableCell>
@@ -117,7 +117,7 @@ export default function AdminDashboard() {
                     </div>
                   </TableCell>
                   <TableCell>789</TableCell>
-                  <TableCell>$7,890</TableCell>
+                  <TableCell>₹7,890</TableCell>
                 </TableRow>
               </TableBody>
             </Table>
@@ -140,11 +140,11 @@ export default function AdminDashboard() {
               </div>
               <div className="flex items-center justify-between">
                 <div>Average Order Value</div>
-                <div className="text-4xl font-bold">$75</div>
+                <div className="text-4xl font-bold">₹75</div>
               </div>
               <div className="flex items-center justify-between">
                 <div>Customer Lifetime Value</div>
-                <div className="text-4xl font-bold">$250</div>
+                <div className="text-4xl font-bold">₹250</div>
               </div>
             </div>
           </CardContent>
@@ -170,7 +170,7 @@ export default function AdminDashboard() {
                   <TableCell className="font-medium">#3210</TableCell>
                   <TableCell>Olivia Martin</TableCell>
                   <TableCell>February 20, 2022</TableCell>
-                  <TableCell>$42.25</TableCell>
+                  <TableCell>₹42.25</TableCell>
                   <TableCell>
                     <Badge className="text-xs" variant="secondary">
                       Shipped
@@ -181,7 +181,7 @@ export default function AdminDashboard() {
                   <TableCell className="font-medium">#3209</TableCell>
                   <TableCell>Ava Johnson</TableCell>
                   <TableCell>January 5, 2022</TableCell>
-                  <TableCell>$74.99</TableCell>
+                  <TableCell>₹74.99</TableCell>
                   <TableCell>
                     <Badge className="text-xs" variant="outline">
                       Paid
@@ -192,7 +192,7 @@ export default function AdminDashboard() {
                   <TableCell className="font-medium">#3204</TableCell>
                   <TableCell>Michael Johnson</TableCell>
                   <TableCell>August 3, 2021</TableCell>
-                  <TableCell>$64.75</TableCell>
+                  <TableCell>₹64.75</TableCell>
                   <TableCell>
                     <Badge className="text-xs" variant="outline">
                       Unfulfilled

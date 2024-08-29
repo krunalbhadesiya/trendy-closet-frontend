@@ -105,27 +105,27 @@ export default function AddOrder() {
                             <p className="text-muted-foreground">Color: {item.productColor.toUpperCase()} | Size: {item.productSize.toUpperCase()}</p>
                           </div>
                         </div>
-                        <div className="text-lg font-medium">${(item.productPrice * item.cartCount).toFixed(2)}</div>
+                        <div className="text-lg font-medium">₹{(item.productPrice * item.cartCount).toFixed(2)}</div>
                       </div>
                     ))}
                     <Separator />
                     <div className="grid gap-2">
                       <div className="flex items-center justify-between">
                         <div>Subtotal</div>
-                        <div>${subtotal.toFixed(2)}</div>
+                        <div>₹{subtotal.toFixed(2)}</div>
                       </div>
                       <div className="flex items-center justify-between">
                         <div>Shipping</div>
-                        <div>${shipping.toFixed(2)}</div>
+                        <div>₹{shipping.toFixed(2)}</div>
                       </div>
                       <div className="flex items-center justify-between">
                         <div>Tax</div>
-                        <div>${tax.toFixed(2)}</div>
+                        <div>₹{tax.toFixed(2)}</div>
                       </div>
                       <Separator />
                       <div className="flex items-center justify-between font-medium">
                         <div>Total</div>
-                        <div>${total.toFixed(2)}</div>
+                        <div>₹{total.toFixed(2)}</div>
                       </div>
                     </div>
                   </div>

@@ -148,6 +148,7 @@ function AdminOrder() {
                                 <TableCell>{new Date(order.createdAt).toLocaleDateString()}</TableCell>
                                 <TableCell>
                                     <Badge
+                                        variant={"outline"}
                                         className={
                                             order.status === "Pending"
                                                 ? "bg-yellow-500 text-white"
@@ -161,7 +162,7 @@ function AdminOrder() {
                                         {order.status}
                                     </Badge>
                                 </TableCell>
-                                <TableCell>${order.totalAmount.toFixed(2)}</TableCell>
+                                <TableCell>₹ {order.totalAmount.toFixed(2)}</TableCell>
                                 <TableCell className="flex flex-row gap-2">
                                     <Link to={`../admin/dashboard/order/${order._id}`}>
                                         <Button variant={"outline"} size="sm" className="p-1 flex items-center space-x-2">
