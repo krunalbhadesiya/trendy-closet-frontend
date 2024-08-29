@@ -101,7 +101,7 @@ export default function AdminProduct() {
           {products.length > 0 ? (
             products.map(product => (
               <Card key={product.id} className="relative overflow-hidden transition-transform  duration-300 ease-in-out rounded-lg shadow-lg group hover:shadow-xl hover:scale-105">
-                <img src={product.photoUrl} alt={product.name} width={500} height={400} className="object-cover w-full h-64" />
+                <img src={product.photoUrl} alt={product.name} width={500} height={500} className="object-cover w-full h-64" />
                 <CardContent className="p-4 bg-background">
                   <h3 className="text-xl font-bold">{product.name}</h3>
                   <div className="border-t-2 mt-2 pt-2 flex items-center justify-between">
