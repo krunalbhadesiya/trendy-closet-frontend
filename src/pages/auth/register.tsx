@@ -1,6 +1,6 @@
 import { RegisterForm } from '@/components/auth/RegisterFrom';
 import React from 'react';
-import Illustrator from "../../assets/3293465.jpg"
+import Illustrator from "../../assets/Fingerprint-cuate.png"
 
 
 const Register: React.FC = () => {

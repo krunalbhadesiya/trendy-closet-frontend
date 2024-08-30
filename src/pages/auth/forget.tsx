@@ -1,12 +1,12 @@
 import { ForgetPasswordForm } from '@/components/auth/ForgetPasswordFrom';
 import React from 'react';
-
+import Illustrator from "../../assets/Fingerprint-cuate.png"
 const ForgetPassword: React.FC = () => {
   return (
     <div className="grid w-full min-h-screen lg:grid-cols-2">
       <div className="hidden bg-muted lg:block">
         <img
-          src="/authpage.jpg"
+          src={Illustrator}
           alt="Login Image"
           width="1600"
           height="900"

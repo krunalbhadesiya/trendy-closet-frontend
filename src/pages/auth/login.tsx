@@ -1,5 +1,5 @@
 import LoginForm  from '@/components/auth/LoginForm';
-import Illustrator from "../../assets/3293465.jpg"
+import Illustrator from "../../assets/Fingerprint-cuate.png"
 
 const Login = () => {
   return (
