@@ -193,7 +193,6 @@ export default function OrderMultiStepForm({ cartItems }: OrderMultiStepFormProp
                                         >
                                             <PayPalScriptProvider options={initialOptions} >
                                                 <PayPalButtons onApprove={onApprove} />
-                                                <PayPalButtons />
                                             </PayPalScriptProvider>
                                             {/* Online Payment */}
                                         </Label>
