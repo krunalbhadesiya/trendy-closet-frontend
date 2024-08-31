@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
-import { Add, Minus } from "iconsax-react";
+import { Add, Minus, Trash } from "iconsax-react";
 import axios from "axios";
 import { toast } from "@/components/ui/use-toast";
 import { Link } from "react-router-dom";
@@ -93,6 +93,32 @@ export default function Cart() {
             });
         }
     };
+    // Update cart count
+    const deleteCart = async (itemId: string) => {
+        const token = localStorage.getItem("token");
+
+        try {
+            await axios.delete(
+                `${import.meta.env.VITE_API_BASE_URL}/cart/${itemId}`,
+                {
+                    headers: {
+                        Authorization: `${token}`,
+                        "Content-Type": "application/json",
+                    },
+                }
+            );
+            // Update local state
+            setCartItems((prevItems) =>
+                prevItems.filter((item) => item._id !== itemId)
+            );
+        } catch (error) {
+            console.error("Error updating cart count", error);
+            toast({
+                title: "Error",
+                description: "There was an error updating your cart item. Please try again.",
+            });
+        }
+    };
 
     // Calculate totals
     const subtotal = cartItems.reduce((acc, item) => acc + item.cartCount * item.productPrice, 0);
@@ -115,7 +141,7 @@ export default function Cart() {
                                         <p className="px-4 py-3">Your cart is empty.</p>
                                     ) : (
                                         cartItems.map((item) => (
-                                            <div key={item._id} className="grid grid-cols-[80px_1fr_100px] items-center gap-4 px-4 py-3">
+                                            <div key={item._id} className="grid grid-cols-[80px_1fr_180px] items-center gap-4 px-4 py-3">
                                                 <img
                                                     src={item.productPhotoUrl}
                                                     width={80}
@@ -154,6 +180,14 @@ export default function Cart() {
                                                     >
                                                         <Add className="h-4 w-4" />
                                                     </Button>
+                                                    <Button
+                                                        variant="destructive"
+                                                        size="icon"
+                                                        onClick={() => deleteCart(item._id)}
+                                                    >
+                                                        <Trash variant="Bulk" size={26} />
+                                                    </Button>
+
                                                 </div>
                                             </div>
                                         ))
@@ -168,16 +202,16 @@ export default function Cart() {
                             <div className="p-4 space-y-2">
                                 <div className="flex justify-between">
                                     <span>Subtotal</span>
-                                    <span>${subtotal.toFixed(2)}</span>
+                                    <span>₹{subtotal.toFixed(2)}</span>
                                 </div>
                                 <div className="flex justify-between">
                                     <span>Tax</span>
-                                    <span>${tax.toFixed(2)}</span>
+                                    <span>₹{tax.toFixed(2)}</span>
                                 </div>
                                 <Separator />
                                 <div className="flex justify-between font-medium">
                                     <span>Total</span>
-                                    <span>${total.toFixed(2)}</span>
+                                    <span>₹{total.toFixed(2)}</span>
                                 </div>
                             </div>
                             <div className="bg-muted/40 px-4 py-3 flex gap-2">
