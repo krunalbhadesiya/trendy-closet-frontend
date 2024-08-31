@@ -6,6 +6,8 @@ import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import ThankYouIllustration from "../../../../assets/8459737.jpg";
+import { PayPalScriptProvider, PayPalButtons } from "@paypal/react-paypal-js";
+
 
 type CartItem = {
     _id: string;
@@ -24,9 +26,18 @@ type OrderMultiStepFormProps = {
 };
 
 export default function OrderMultiStepForm({ cartItems }: OrderMultiStepFormProps) {
+    const initialOptions = {
+        clientId: "AVVuJ9dZY0JeGQ0AEBEGDNqnm2W7i3v0ELfr6K-V7Dzk4pFbvxWmuXaJF3CXL9sQekiHOOPCSGQE5YDV",
+        currency: "USD",
+        intent: "capture",
+
+        // Add other options as needed
+    };
     const [step, setStep] = useState(1);
-    const [paymentMethod, setPaymentMethod] = useState("onlinepay");
-    const [paymentStatus] = useState<string>("");
+    const [paymentMethod, setPaymentMethod] = useState("cod");
+    const [paymentStatus, setPaymentStatus] = useState<string>("Unpaid");
+    // const [paymentStatus] = useState<string>("Unpaid");
+    const [payAmount, setPayAmount] = useState<number>(0);
     const [formData, setFormData] = useState({
         phone: "",
         address: "",
@@ -45,6 +56,7 @@ export default function OrderMultiStepForm({ cartItems }: OrderMultiStepFormProp
             (acc, item) => acc + item.cartCount * item.productPrice,
             0
         );
+        setPayAmount(totalAmount)
 
         try {
             const response = await axios.post(
@@ -67,7 +79,7 @@ export default function OrderMultiStepForm({ cartItems }: OrderMultiStepFormProp
                     paymentStatus: "Unpaid",
                     status: "Pending",
                     deliveryDate: " ",
-                    totalAmount: totalAmount,
+                    totalAmount: payAmount,
                 },
                 {
                     headers: {
@@ -100,9 +112,13 @@ export default function OrderMultiStepForm({ cartItems }: OrderMultiStepFormProp
         event.preventDefault();
         if (step == 1 && paymentMethod == "onlinepay") {
             // Redirect to Stripe payment gateway generate code
-            alert("Payment Gateway is under development. Please select Cash on Delivery.");
-            setStep(3);
-            submitOrder()
+            // redirectToPayPal();
+            if (paymentStatus == "Paid") {
+                setStep(3);
+                submitOrder()
+            }
+            alert("Payment Gateway is Server Down. Please try again later.");
+
         } else if (step == 2) {
             setStep(3);
             submitOrder()
@@ -110,6 +126,18 @@ export default function OrderMultiStepForm({ cartItems }: OrderMultiStepFormProp
             setStep(step + 1);
         }
     };
+
+
+
+
+
+    // function OnlinePaymentSuceess(): import("@paypal/paypal-js").PayPalButtonOnApprove | undefined {
+    //     throw setPaymentStatus("Paid");
+    // }
+
+    const onApprove = async () => {
+        setPaymentStatus("Paid");
+    }
 
     return (
         <div className="container mx-auto px-4 md:px-6 py-12">
@@ -163,7 +191,11 @@ export default function OrderMultiStepForm({ cartItems }: OrderMultiStepFormProp
                                             htmlFor="onlinepay"
                                             className="flex items-center justify-between rounded-md border-2 border-muted bg-popover p-4 hover:bg-accent hover:text-accent-foreground peer-data-[state=checked]:border-primary"
                                         >
-                                            Online Payment
+                                            <PayPalScriptProvider options={initialOptions} >
+                                                <PayPalButtons onApprove={onApprove} />
+                                                <PayPalButtons />
+                                            </PayPalScriptProvider>
+                                            {/* Online Payment */}
                                         </Label>
                                     </div>
                                     <div>
