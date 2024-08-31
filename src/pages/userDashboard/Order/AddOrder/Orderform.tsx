@@ -100,6 +100,7 @@ export default function OrderMultiStepForm({ cartItems }: OrderMultiStepFormProp
         event.preventDefault();
         if (step == 1 && paymentMethod == "onlinepay") {
             // Redirect to Stripe payment gateway generate code
+            alert("Payment Gateway is under development. Please select Cash on Delivery.");
             setStep(3);
             submitOrder()
         } else if (step == 2) {
