@@ -25,7 +25,7 @@ type OrderMultiStepFormProps = {
 
 export default function OrderMultiStepForm({ cartItems }: OrderMultiStepFormProps) {
     const [step, setStep] = useState(1);
-    const [paymentMethod, setPaymentMethod] = useState("upi");
+    const [paymentMethod, setPaymentMethod] = useState("onlinepay");
     const [paymentStatus] = useState<string>("");
     const [formData, setFormData] = useState({
         phone: "",
@@ -45,18 +45,6 @@ export default function OrderMultiStepForm({ cartItems }: OrderMultiStepFormProp
             (acc, item) => acc + item.cartCount * item.productPrice,
             0
         );
-
-        // console.log("Submitting Order:", {
-        //     username,
-        //     customerName,
-        //     email,
-        //     phone: formData.phone,
-        //     address: formData.address,
-        //     city: formData.city,
-        //     state: formData.state,
-        //     zip: formData.zip,
-        //     totalAmount
-        // });
 
         try {
             const response = await axios.post(
@@ -88,9 +76,6 @@ export default function OrderMultiStepForm({ cartItems }: OrderMultiStepFormProp
                     },
                 }
             );
-
-            // console.log("Order Response:", response);
-
             if (response.status === 200 || response.status === 201 || response.status === 204) {
                 for (const item of cartItems) {
                     await axios.delete(
@@ -168,12 +153,12 @@ export default function OrderMultiStepForm({ cartItems }: OrderMultiStepFormProp
                                     }}
                                 >
                                     <div>
-                                        <RadioGroupItem value="upi" id="upi" className="peer sr-only" />
+                                        <RadioGroupItem value="onlinepay" id="onlinepay" className="peer sr-only" />
                                         <Label
-                                            htmlFor="upi"
+                                            htmlFor="onlinepay"
                                             className="flex items-center justify-between rounded-md border-2 border-muted bg-popover p-4 hover:bg-accent hover:text-accent-foreground peer-data-[state=checked]:border-primary"
                                         >
-                                            Pay with UPI
+                                            Online Payment
                                         </Label>
                                     </div>
                                     <div>
