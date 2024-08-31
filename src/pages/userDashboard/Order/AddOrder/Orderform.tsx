@@ -98,7 +98,11 @@ export default function OrderMultiStepForm({ cartItems }: OrderMultiStepFormProp
 
     const handleNext = (event: React.FormEvent) => {
         event.preventDefault();
-        if (step == 2) {
+        if (step == 1 && paymentMethod == "onlinepay") {
+            // Redirect to Stripe payment gateway generate code
+            setStep(3);
+            submitOrder()
+        } else if (step == 2) {
             setStep(3);
             submitOrder()
         } else {
