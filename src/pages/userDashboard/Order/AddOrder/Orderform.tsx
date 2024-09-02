@@ -37,7 +37,8 @@ export default function OrderMultiStepForm({ cartItems }: OrderMultiStepFormProp
     const [paymentMethod, setPaymentMethod] = useState("cod");
     const [paymentStatus, setPaymentStatus] = useState<string>("Unpaid");
     // const [paymentStatus] = useState<string>("Unpaid");
-    const [payAmount, setPayAmount] = useState<number>(0);
+    // const [payAmount] = useState<number>(0);
+    // const [payAmount, setPayAmount] = useState<number>(0);
     const [formData, setFormData] = useState({
         phone: "",
         address: "",
@@ -56,7 +57,7 @@ export default function OrderMultiStepForm({ cartItems }: OrderMultiStepFormProp
             (acc, item) => acc + item.cartCount * item.productPrice,
             0
         );
-        setPayAmount(totalAmount)
+        // setPayAmount(totalAmount)
 
         try {
             const response = await axios.post(
@@ -79,7 +80,7 @@ export default function OrderMultiStepForm({ cartItems }: OrderMultiStepFormProp
                     paymentStatus: "Unpaid",
                     status: "Pending",
                     deliveryDate: " ",
-                    totalAmount: payAmount,
+                    totalAmount: totalAmount,
                 },
                 {
                     headers: {
